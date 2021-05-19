@@ -26,6 +26,7 @@
           <small style="display:inline-block;"></small>
           <div id="nav" class="mt-1 bg-light">
             <span>{{$storage.state.user.name}} : : : </span>
+            <router-link v-if="$storage.state.user.role_id == 'PARENT'" class="m-1" to="/">Главная</router-link>
             <router-link class="m-1" to="/goals">Цели</router-link>
             <router-link class="m-1" v-if="!role" to="/calc">Примеры</router-link>
             <span v-if="role">
