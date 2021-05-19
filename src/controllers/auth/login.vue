@@ -1,18 +1,16 @@
 <template>
   <div class="px-5">
     <h2>Вход</h2>
-
-    <v-text-field type="text" placeholder="логин" v-model="login"></v-text-field>
-        <v-input type="password" placeholder="пароль" v-model="password"></v-input>
-      <v-btn @click="doLogin()" variant="primary" class="btn btn-sm btn-primary btn-block">Вход</v-btn>
-      <v-alert variant="danger" v-if="alert" show><small>{{this.alertmessage}}</small></v-alert>
-    <v-input
-        append-icon="mdi-close"
-        prepend-icon="mdi-phone"
-    >
-      Default Slot
-    </v-input>
-
+    <v-container>
+      <v-row class="mb-6" no-gutters>
+        <v-col md="6" offset-lg="6" offset-xl="6">
+        <v-text-field type="text" placeholder="логин" v-model="login"></v-text-field>
+        <v-text-field type="password" placeholder="пароль" v-model="password"></v-text-field>
+        <v-btn @click="doLogin()" variant="primary" class="btn btn-sm btn-primary btn-block">Вход</v-btn>
+        <v-alert variant="danger" v-if="alert" show><small>{{this.alertmessage}}</small></v-alert>
+        </v-col>
+      </v-row>
+    </v-container>
 
   </div>
 </template>
@@ -45,7 +43,7 @@
   methods: {
     async doLogin() {
       try {
-        const res = await this.$api.get('login', {
+        const res = await this.$api.post('login', {
           login: this.login,
           password: this.password
         }, { skipTokenCheck: true })

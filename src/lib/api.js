@@ -11,7 +11,7 @@ class ApiError extends Error {
 class Api {
     constructor(vue) {
         this.vue = vue
-        this.host = 'https://x125.ru/api'
+        this.host = 'https://x125.ru/api/public'
         const token = vue.cookie.get('token')
         if (token && token !== 'undefined') {
             this.token = token
