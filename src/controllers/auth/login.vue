@@ -2,18 +2,16 @@
   <div class="px-5">
     <h2>Вход</h2>
 
-    <form class="">
-      <div class="form-group">
-        <input class="form-control form-control-sm text-center" type="text" placeholder="логин" v-model="login">
-      </div>
-      <div class="form-group">
-        <input class="form-control form-control-sm text-center" type="password" placeholder="пароль"
-               v-model="password">
-      </div>
-      <div class="form-group"><b-button @click="doLogin()" variant="primary" class="btn btn-sm btn-primary btn-block">Вход</b-button></div>
-      <hr>
-      <b-alert variant="danger" v-if="alert" show><small>{{this.alertmessage}}</small></b-alert>
-    </form>
+    <v-text-field type="text" placeholder="логин" v-model="login"></v-text-field>
+        <v-input type="password" placeholder="пароль" v-model="password"></v-input>
+      <v-btn @click="doLogin()" variant="primary" class="btn btn-sm btn-primary btn-block">Вход</v-btn>
+      <v-alert variant="danger" v-if="alert" show><small>{{this.alertmessage}}</small></v-alert>
+    <v-input
+        append-icon="mdi-close"
+        prepend-icon="mdi-phone"
+    >
+      Default Slot
+    </v-input>
 
 
   </div>

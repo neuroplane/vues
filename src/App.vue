@@ -138,7 +138,7 @@ export default {
     if (this.token === 'undefined') {
       this.token = null
     }
-
+    this.$router.push('/about')
     console.log('token', this.token)
     if (this.token) {
       this.getUser()
