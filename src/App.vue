@@ -6,7 +6,7 @@
         <div v-if="!token" class="">
 
           <div v-if="show_reg">
-            <register @done="HandleLoginOrRegisterComplete"/>
+            <!--<register @done="HandleLoginOrRegisterComplete"/>-->
             <br/>
             <div class="pl-5 pr-5">
               <button @click="show_reg=false" class="btn btn-sm btn-outline-primary btn-block">Вход по паролю</button>
@@ -26,7 +26,6 @@
           <small style="display:inline-block;"></small>
           <div id="nav" class="mt-1 bg-light">
             <span>{{$storage.state.user.name}} : : : </span>
-            <router-link v-if="$storage.state.user.role_id == 'PARENT'" class="m-1" to="/">Главная</router-link>
             <router-link class="m-1" to="/goals">Цели</router-link>
             <router-link class="m-1" v-if="!role" to="/calc">Примеры</router-link>
             <span v-if="role">
@@ -47,47 +46,8 @@
 </template>
 
 <style>
-.card-body {
-  -ms-flex: 1 1 auto;
-  -webkit-box-flex: 1;
-  flex: 1 1 auto;
-  padding: 0.5rem;
-}
-ul {
-  padding-inline-start: 20px;
-}
-div#radio-group-1 {
-  width: 100%;
-}
-.statistics {
-  font-size: 9pt;
-}
-.table.transactions{
-  font-size: 9pt;
-}
-.table.transactions td:nth-child(4){
-  text-align: right;
-}
-.table.transactions td:nth-child(-n+3){
-  text-align: left;
-}
-.table.transactions th:nth-child(4){
-  text-align: right;
-}
-.table.transactions th:nth-child(-n+3){
-  text-align: left;
-}
-.calcbuttons {
-  flex-wrap: wrap;
-}
-#calc, .table, td, tr {
-  padding: 4px !important;
-  border-spacing: 0px;
-  border: 0px
-}
 #app {
   font-family: 'Ubuntu', sans-serif;
-  /*font-family: 'Avenir', Helvetica, Arial, sans-serif;*/
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -97,18 +57,12 @@ div#radio-group-1 {
   padding: 5px;
   font-size: 9pt;
 }
-#pricelist {
-  font-size: 10pt;
-}
+
 #nav a {
   /*// font-weight: bold;*/
   color: #2c3e50;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-  font-weight: bold;
-}
 body {
   font-family: 'Ubuntu', sans-serif;
 }
