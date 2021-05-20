@@ -1,10 +1,10 @@
 <template>
   <v-container >
-    <v-btn @click="get_ktu()">Click me</v-btn>
+    <v-btn v-if="this.ktu_items" @click="get_ktu()">Click me</v-btn>
     <v-data-table
         :headers="headers"
         :items="ktu_items"
-        :items-per-page="5"
+        :items-per-page="15"
         class="elevation-1"
     ></v-data-table>
   </v-container>
