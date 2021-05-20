@@ -1,48 +1,31 @@
 <template>
-  <div class="m-1">
-    <div class="col-md-6 offset-md-3">
-      <div id="app">
-
-        <div v-if="!token" class="">
-
-          <div v-if="show_reg">
-            <!--<register @done="HandleLoginOrRegisterComplete"/>-->
-            <br/>
-            <div class="pl-5 pr-5">
-              <button @click="show_reg=false" class="btn btn-sm btn-outline-primary btn-block">Вход по паролю</button>
+  <v-app>
+    <v-container>
+      <v-row>
+        <v-col v-if="token" xl="1" md="2" lg="2">
+          <Navigation ></Navigation>
+        </v-col>
+        <v-col xl="11" md="10" lg="10" style="background-color: azure">
+          <div id="app">
+            <div v-if="!token" class="">
+              <div v-if="show_reg">
+              </div>
+              <div v-else>
+                <login @done="HandleLoginOrRegisterComplete"/>
+                <div class="pl-5 pr-5">
+                  <button @click="show_reg=true" class="btn btn-sm btn-outline-primary btn-block">Регистрация</button>
+                </div>
+              </div>
             </div>
-
-          </div>
-          <div v-else>
-            <login @done="HandleLoginOrRegisterComplete"/>
-            <br/>
-            <div class="pl-5 pr-5">
-              <button @click="show_reg=true" class="btn btn-sm btn-outline-primary btn-block">Регистрация</button>
+            <div v-if="user">
+                <a class="m-1" href="/" @click.prevent="doLogout()"> Выйти </a>
             </div>
-
+            <router-view/>
           </div>
-        </div>
-        <div v-if="user">
-          <small style="display:inline-block;"></small>
-          <div id="nav" class="mt-1 bg-light">
-            <span>{{$storage.state.user.name}} : : : </span>
-            <router-link class="m-1" to="/goals">Цели</router-link>
-            <router-link class="m-1" v-if="!role" to="/calc">Примеры</router-link>
-            <span v-if="role">
-              <router-link class="m-1" to="/admin">Админка</router-link>
-            </span>
-
-            <!--<router-link to="/register">Рега</router-link>
-            |-->
-            <a class="m-1" href="/" @click.prevent="doLogout()"> Выйти </a>
-          </div>
-          <hr>
-
-          <router-view/>
-        </div>
-      </div>
-    </div>
-  </div>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-app>
 </template>
 
 <style>
@@ -74,11 +57,18 @@ input, select, textarea {
 <script>
 
 import Login from './controllers/auth/login.vue'
+import Navigation from "@/components/Navigation";
 
 export default {
-  components: { Login },
+  components: {Navigation, Login },
   data() {
     return {
+      items: [
+        { title: 'Home', icon: 'mdi-view-dashboard', url: 'home' },
+        { title: 'Main', icon: 'mdi-image', url: 'main' },
+        { title: 'None', icon: 'mdi-help-box', url: '' }
+      ],
+      right: null,
       show_reg: false,
       token: null,
       user: null,
@@ -93,7 +83,7 @@ export default {
     if (this.token === 'undefined') {
       this.token = null
     }
-    this.$router.push('/about')
+    this.$router.push('/main')
     console.log('token', this.token)
     if (this.token) {
       this.getUser()
