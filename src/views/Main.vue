@@ -1,6 +1,6 @@
 <template>
   <v-container >
-    <v-btn v-if="this.ktu_items" @click="get_ktu()">Click me</v-btn>
+    <v-btn v-if="!this.ktu_items.length" @click="get_ktu()">Click me</v-btn>
     <v-data-table
         :headers="headers"
         :items="ktu_items"
