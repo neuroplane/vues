@@ -6,6 +6,8 @@
         :items="ktu_items"
         :items-per-page="15"
         class="elevation-1"
+        dense
+        v-if="this.ktu_items.length"
     ></v-data-table>
   </v-container>
 </template>

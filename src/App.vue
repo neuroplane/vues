@@ -4,8 +4,10 @@
       <v-row>
         <v-col v-if="token" xl="1" md="2" lg="2">
           <Navigation ></Navigation>
+          <a class="m-1" href="/" @click.prevent="doLogout()"> Выйти </a>
         </v-col>
         <v-col xl="11" md="10" lg="10" style="background-color: azure">
+
           <div id="app">
             <div v-if="!token" class="">
               <div v-if="show_reg">
@@ -18,7 +20,7 @@
               </div>
             </div>
             <div v-if="user">
-                <a class="m-1" href="/" @click.prevent="doLogout()"> Выйти </a>
+
             </div>
             <router-view/>
           </div>
@@ -29,29 +31,7 @@
 </template>
 
 <style>
-#app {
-  font-family: 'Ubuntu', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 5px;
-  font-size: 9pt;
-}
 
-#nav a {
-  /*// font-weight: bold;*/
-  color: #2c3e50;
-}
-
-body {
-  font-family: 'Ubuntu', sans-serif;
-}
-input, select, textarea {
-  font-size: 100%;
-}
 </style>
 
 <script>
@@ -83,7 +63,8 @@ export default {
     if (this.token === 'undefined') {
       this.token = null
     }
-    this.$router.push('/main')
+    this.$router.push({ name: 'Main' })
+
     console.log('token', this.token)
     if (this.token) {
       this.getUser()
@@ -95,7 +76,7 @@ export default {
       this.$cookie.delete('token')
       this.user = null
       this.token = null
-      this.$router.push('/')
+      this.$router.push({ name: 'Main' })
     },
 
     HandleLoginOrRegisterComplete() {

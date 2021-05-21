@@ -1,6 +1,6 @@
 <template>
   <v-container>
-        <v-img
+        <!--<v-img
           :src="require('../assets/logo.svg')"
           class="my-3"
           contain
@@ -24,8 +24,8 @@
         </h2>
 
           <a
-            v-for="(next, i) in whatsNext"
-            :key="i"
+            v-for="(next, k) in whatsNext"
+            :key="k"
             :href="next.href"
             class="subheading mx-3"
             target="_blank"
@@ -54,15 +54,15 @@
         </h2>
 
           <a
-            v-for="(eco, i) in ecosystem"
-            :key="i"
+            v-for="(eco, p) in ecosystem"
+            :key="p"
             :href="eco.href"
             class="subheading mx-3"
             target="_blank"
           >
             {{ eco.text }}
           </a>
-
+-->
   </v-container>
 </template>
 

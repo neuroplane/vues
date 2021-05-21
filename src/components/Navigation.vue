@@ -34,6 +34,25 @@
 
             </v-list-item-content>
           </v-list-item>
+          <v-divider></v-divider>
+          <v-list-item
+              v-for="item in exit_item"
+              :key="item.title"
+              link
+              :to="item.url"
+              @click="doLogout()"
+          >
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>
+                <a class="m-1" href="/" @click.prevent="doLogout()"> Выйти </a>
+              </v-list-item-title>
+
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
       </v-navigation-drawer>
 </template>
@@ -47,6 +66,9 @@ export default {
         { title: 'Main', icon: 'mdi-image', url: 'main' },
         { title: 'None', icon: 'mdi-help-box', url: '' }
       ],
+      exit_item:[
+        { title: 'Exit', icon: 'mdi-exit-to-app', url: 'main' }
+      ],
       right: null,
       show_reg: false,
       token: null,
@@ -56,7 +78,15 @@ export default {
       role_child: null
     }
   },
-name: "Navigation"
+name: "Navigation",
+  methods:{
+    doLogout() {
+      this.$cookie.delete('token')
+      this.user = null
+      this.token = null
+      this.$router.push({ name: 'Main' })
+    },
+  }
 }
 </script>
 
