@@ -21,6 +21,10 @@ export default {
       headers: [
         { text: 'ФИО', value: 'surname' },
         { text: 'Сумма', value: 'c_sum' },
+        { text: 'Штуки', value: 'c_amount' },
+        { text: 'Строки', value: 'c_lines' },
+        { text: 'Чеки', value: 'c_documents' },
+        { text: 'ktu_sum', value: 'ktu_sum' },
       ]
     }
   },
