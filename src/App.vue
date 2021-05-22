@@ -6,7 +6,7 @@
           <Navigation ></Navigation>
           <a class="m-1" href="/" @click.prevent="doLogout()"> Выйти </a>
         </v-col>
-        <v-col xl="11" md="10" lg="10" style="background-color: azure">
+        <v-col xl="11" md="10" lg="10">
 
           <div id="app">
             <div v-if="!token" class="">
@@ -74,6 +74,7 @@ export default {
   methods: {
     doLogout() {
       this.$cookie.delete('token')
+      this.$storage.set('logged_in', false)
       this.user = null
       this.token = null
       this.$router.push({ name: 'Main' })
@@ -92,6 +93,7 @@ export default {
       try {
         this.user = await this.$api.get('users/me')
         this.$storage.set('user', this.user)
+        this.$storage.set('logged_in', true)
       } catch (e) {
         if (e.code === 401) {
           this.$alerterr('Токен устарел, перелогиньтесь')

@@ -20,17 +20,16 @@ export default {
       ktu_items: [],
       headers: [
         { text: 'ФИО', value: 'surname' },
-        { text: 'Сумма', value: 'c_sum' },
-        { text: 'Штуки', value: 'c_amount' },
-        { text: 'Строки', value: 'c_lines' },
-        { text: 'Чеки', value: 'c_documents' },
-        { text: 'ktu_sum', value: 'ktu_sum' },
+        { text: 'Сумма', value: 'ktu_sum' },
+        { text: 'Штуки', value: 'ktu_amount' },
+        { text: 'Строки', value: 'ktu_lines' },
+        { text: 'Чеки', value: 'ktu_documents' }
       ]
     }
   },
   methods: {
     async get_ktu() {
-      this.ktu_items = await this.$api.post('test2',{"month" : 4})
+      this.ktu_items = await this.$api.post('overallktu',{"month" : 4})
       console.log(this.ktu_items)
     }
   }
