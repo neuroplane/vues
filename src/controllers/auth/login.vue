@@ -44,7 +44,7 @@
         }, { skipTokenCheck: true })
         this.$cookie.set('token', res.token)
         this.$emit('done')
-        this.$router.push('/main')
+        //this.$router.push('/main')
       } catch (e) {
         this.alertmessage = e.message
         this.alert = true

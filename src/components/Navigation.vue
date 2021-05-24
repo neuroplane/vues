@@ -1,6 +1,8 @@
 <template>
-      <v-navigation-drawer permanent>
-        <v-list-item>
+      <v-navigation-drawer v-model="drawer"
+                           absolute
+                           permanent app>
+        <!--<v-list-item>
           <v-list-item-content>
             <v-list-item-title class="title">
               Application
@@ -11,7 +13,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-divider></v-divider>
+        <v-divider></v-divider>-->
 
         <v-list
             dense
@@ -22,6 +24,7 @@
               :key="item.title"
               link
               :to="item.url"
+              v-model="group"
           >
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
@@ -30,25 +33,6 @@
             <v-list-item-content>
               <v-list-item-title>
                 {{ item.title}}
-              </v-list-item-title>
-
-            </v-list-item-content>
-          </v-list-item>
-          <v-divider></v-divider>
-          <v-list-item
-              v-for="item in exit_item"
-              :key="item.title"
-              link
-              :to="item.url"
-              @click="doLogout()"
-          >
-            <v-list-item-icon>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-icon>
-
-            <v-list-item-content>
-              <v-list-item-title>
-                <a class="m-1" href="/" @click.prevent="doLogout()"> Выйти </a>
               </v-list-item-title>
 
             </v-list-item-content>
@@ -62,29 +46,24 @@ export default {
   data() {
     return {
       items: [
-        { title: 'Home', icon: 'mdi-view-dashboard', url: 'home' },
-        { title: 'Main', icon: 'mdi-image', url: 'main' },
-        { title: 'None', icon: 'mdi-help-box', url: '' }
-      ],
-      exit_item:[
-        { title: 'Exit', icon: 'mdi-exit-to-app', url: 'main' }
+        { title: 'Home', icon: 'mdi-home', url: 'home' },
+        { title: 'Main', icon: 'mdi-credit-card-outline', url: 'main' },
+        { title: 'None', icon: 'mdi-help-box', url: '' },
+        { title: 'Ktu', icon: 'mdi-file-table-box-multiple', url: 'ktu' },
+        { title: 'Users', icon: 'mdi-account-group', url: 'users' }
       ],
       right: null,
       show_reg: false,
       token: null,
       user: null,
-      role: null,
-      role_parent: null,
-      role_child: null
+      drawer: false,
+      group: null,
     }
   },
 name: "Navigation",
   methods:{
     doLogout() {
-      this.$cookie.delete('token')
-      this.user = null
-      this.token = null
-      this.$router.push({ name: 'Main' })
+      this.Console.log('LOGOUT SIMULATION')
     },
   }
 }

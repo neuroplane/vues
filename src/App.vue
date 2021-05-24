@@ -1,14 +1,10 @@
 <template>
   <v-app>
-    <v-container>
-      <v-row>
-        <v-col v-if="token" xl="1" md="2" lg="2">
-          <Navigation ></Navigation>
-          <a class="m-1" href="/" @click.prevent="doLogout()"> Выйти </a>
-        </v-col>
-        <v-col xl="11" md="10" lg="10">
-
-          <div id="app">
+    <Navigation ></Navigation>
+    <Appbar ></Appbar>
+    <v-main>
+      <v-container fluid>
+    <a class="m-1" href="/" @click.prevent="doLogout()"> Выйти </a>
             <div v-if="!token" class="">
               <div v-if="show_reg">
               </div>
@@ -23,10 +19,8 @@
 
             </div>
             <router-view/>
-          </div>
-        </v-col>
-      </v-row>
-    </v-container>
+      </v-container>
+    </v-main>
   </v-app>
 </template>
 
@@ -38,16 +32,12 @@
 
 import Login from './controllers/auth/login.vue'
 import Navigation from "@/components/Navigation";
+import Appbar from "@/components/Appbar";
 
 export default {
-  components: {Navigation, Login },
+  components: {Navigation, Appbar, Login },
   data() {
     return {
-      items: [
-        { title: 'Home', icon: 'mdi-view-dashboard', url: 'home' },
-        { title: 'Main', icon: 'mdi-image', url: 'main' },
-        { title: 'None', icon: 'mdi-help-box', url: '' }
-      ],
       right: null,
       show_reg: false,
       token: null,
@@ -77,7 +67,8 @@ export default {
       this.$storage.set('logged_in', false)
       this.user = null
       this.token = null
-      this.$router.push({ name: 'Main' })
+      //this.$router.push({ name: 'Main' })
+      this.$router.push('/')
     },
 
     HandleLoginOrRegisterComplete() {
