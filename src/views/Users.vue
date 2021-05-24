@@ -1,6 +1,5 @@
 <template>
     <v-data-table
-        dense
         :headers="headers"
         :items="got_users"
         sort-by="surname"
@@ -10,12 +9,7 @@
         <v-toolbar
             flat
         >
-          <v-toolbar-title>Список</v-toolbar-title>
-          <v-divider
-              class="mx-4"
-              inset
-              vertical
-          ></v-divider>
+          <v-toolbar-title>Список сотрудников</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-dialog
               v-model="dialog"
@@ -28,8 +22,10 @@
                   class="mb-2"
                   v-bind="attrs"
                   v-on="on"
+                  x-small
+                  plain
               >
-                Добавить
+                <v-icon>mdi-account-plus</v-icon>
               </v-btn>
             </template>
             <v-card>
