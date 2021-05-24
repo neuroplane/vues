@@ -1,6 +1,5 @@
 <template>
   <v-container >
-    <v-btn v-if="!this.ktu_items.length" @click="get_ktu()">Click me</v-btn>
     <v-data-table
         :headers="headers"
         :items="ktu_items"
@@ -32,7 +31,10 @@ export default {
       this.ktu_items = await this.$api.post('overallktu',{"month" : 4})
       console.log(this.ktu_items)
     }
-  }
+  },
+  beforeMount(){
+    this.get_ktu()
+  },
 }
 
 </script>

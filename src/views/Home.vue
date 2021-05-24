@@ -1,18 +1,17 @@
 <template>
-  <div v-if="token" class="home">
-    <!--<img alt="Vue logo" src="../assets/logo.png">-->
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div v-if="!this.$storage.state.user" class="home">
+    <img alt="Vue logo" src="../assets/logo.png">
+
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
+  //все переменные сохраняются в $storage.state и вотчаются вью, если что-то поменяется, то сразу перерисуется представление
   name: 'Home',
   components: {
-    HelloWorld
+
   }
 }
 </script>

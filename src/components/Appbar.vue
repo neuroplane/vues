@@ -28,6 +28,9 @@ export default {
     doLogout() {
       this.Console.log('LOGOUT SIMULATION')
     },
+    switch(){
+      this.drawer = true
+    }
   }
 }
 </script>

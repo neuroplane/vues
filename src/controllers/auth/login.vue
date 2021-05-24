@@ -3,7 +3,7 @@
     <v-container>
       <h2>Вход</h2>
         <v-text-field type="text" placeholder="логин" v-model="login"></v-text-field>
-        <v-text-field type="password" placeholder="пароль" v-model="password"></v-text-field>
+        <v-text-field @keyup.enter="doLogin()" type="password" placeholder="пароль" v-model="password"></v-text-field>
         <v-btn @click="doLogin()" variant="primary" class="btn btn-sm btn-primary btn-block">Вход</v-btn>
         <v-alert variant="danger" v-if="alert" show><small>{{this.alertmessage}}</small></v-alert>
     </v-container>
