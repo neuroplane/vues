@@ -2,14 +2,24 @@
     <v-data-table
         :headers="headers"
         :items="got_users"
-        sort-by="surname"
+        disable-sort
+        locale="ru-Ru"
+        mobile-breakpoint="300"
         class="elevation-1"
+        :search="search"
     >
+
       <template v-slot:top>
-        <v-toolbar
-            flat
-        >
-          <v-toolbar-title>Список сотрудников</v-toolbar-title>
+        <v-toolbar            flat        >
+          <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search"
+              single-line
+              hide-details
+              dense
+              outlined
+          ></v-text-field>
           <v-spacer></v-spacer>
           <v-dialog
               v-model="dialog"
@@ -90,6 +100,17 @@
                           label="Начало работы"
                       ></v-text-field>
                     </v-col>
+                    <v-col
+                        cols="12"
+                        sm="6"
+                        md="4"
+                    >
+                      <v-text-field
+                          dense
+                          v-model="editedItem.internal_code"
+                          label="Внутренний код"
+                      ></v-text-field>
+                    </v-col>
                   </v-row>
                 </v-container>
               </v-card-text>
@@ -155,16 +176,17 @@
 <script>
 export default {
   data: () => ({
+    search: '',
     updateComplete: null,
     dialog: false,
     dialogDelete: false,
     got_users: [],
     headers: [
-      { text: 'Фамилия', align: 'start', sortable: false, value: 'surname' },
-      { text: 'Имя', align: 'start', value: 'name' },
-      { text: 'Отчество', align: 'start', value: 'patronymic' },
-      { text: 'День рождения', align: 'end', value: 'birthday' },
-      { text: 'Начало работы', align: 'end', value: 'start_date' },
+      { text: 'Фамилия', align: 'start', sortable: true, value: 'surname' },
+      { text: 'Имя', align: 'start', sortable: false, value: 'name' },
+      { text: 'Отчество', align: 'start', sortable: false, value: 'patronymic' },
+      { text: 'День рождения', align: 'end', sortable: false, value: 'birthday' },
+      { text: 'Начало работы', align: 'end', sortable: true, value: 'start_date' },
       { text: '', align: 'end', value: 'actions', sortable: false },
     ],
     editedIndex: -1,
@@ -174,6 +196,7 @@ export default {
       patronymic: '',
       birthday: '',
       start_date: '',
+      internal_code: ''
     },
     defaultItem: {
       name: '',
@@ -181,6 +204,7 @@ export default {
       patronymic: '',
       birthday: '',
       start_date: '',
+      internal_code: ''
     },
   }),
 
