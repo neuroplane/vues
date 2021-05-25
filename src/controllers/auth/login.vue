@@ -1,15 +1,14 @@
 <template>
-
     <v-container>
-      <h2>Вход</h2>
       <v-form>
-        <v-text-field type="text" placeholder="логин" v-model="login"></v-text-field>
-        <v-text-field @keyup.enter="doLogin()" type="password" placeholder="пароль" v-model="password"></v-text-field>
+        <v-text-field dense prepend-inner-icon="mdi-account" outlined type="text" placeholder="логин" v-model="login"></v-text-field>
+        <v-text-field dense prepend-inner-icon="mdi-lock" outlined @keyup.enter="doLogin()" type="password" placeholder="пароль" v-model="password"></v-text-field>
         <v-btn @click="doLogin()" variant="primary" class="btn btn-sm btn-primary btn-block">Вход</v-btn>
-        <v-alert variant="danger" v-if="alert" show><small>{{this.alertmessage}}</small></v-alert>
+        <v-alert variant="danger" v-if="alert" show>
+          <small>{{this.alertmessage}}</small>
+        </v-alert>
       </v-form>
     </v-container>
-
 </template>
 
 <script> export default {

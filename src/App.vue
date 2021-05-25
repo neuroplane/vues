@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-if="user" v-model="drawer" absolute temporary app>
+    <v-navigation-drawer v-if="user" v-model="drawer" absolute temporary app >
       <v-list dense nav>
         <v-list-item
             v-for="item in items"
@@ -56,7 +56,8 @@ export default {
         //{ title: 'Home', icon: 'mdi-home', url: 'home' },
         { title: 'Main', icon: 'mdi-credit-card-outline', url: 'main' },
         { title: 'Ktu', icon: 'mdi-file-table-box-multiple', url: 'ktu' },
-        { title: 'Users', icon: 'mdi-account-group', url: 'users' }
+        { title: 'Users', icon: 'mdi-account-group', url: 'users' },
+        { title: 'Input Data', icon: 'mdi-database-plus', url: 'inputdata'}
       ],
       right: null,
       show_reg: false,

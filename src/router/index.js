@@ -9,7 +9,8 @@ const routes = [
   //{path: '/home', name: 'Home', component: () => import(/* webpackChunkName: "about" */ '../views/Home.vue')},
   {path: '/main', name: 'Main', component: () => import(/* webpackChunkName: "about" */ '../views/Main.vue')},
   {path: '/ktu', name: 'Ktu', component: () => import(/* webpackChunkName: "about" */ '../views/Ktu.vue')},
-  {path: '/users', name: 'Users', component: () => import(/* webpackChunkName: "about" */ '../views/Users.vue')}
+  {path: '/users', name: 'Users', component: () => import(/* webpackChunkName: "about" */ '../views/Users.vue')},
+  {path: '/inputdata', name: 'Inputdata', component: () => import(/* webpackChunkName: "about" */ '../views/Inputdata.vue')},
 ]
 
 const router = new VueRouter({

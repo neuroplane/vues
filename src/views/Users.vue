@@ -155,6 +155,7 @@
 <script>
 export default {
   data: () => ({
+    updateComplete: null,
     dialog: false,
     dialogDelete: false,
     got_users: [],
@@ -164,7 +165,7 @@ export default {
       { text: 'Отчество', align: 'start', value: 'patronymic' },
       { text: 'День рождения', align: 'end', value: 'birthday' },
       { text: 'Начало работы', align: 'end', value: 'start_date' },
-      { text: 'Действия', align: 'end', value: 'actions', sortable: false },
+      { text: '', align: 'end', value: 'actions', sortable: false },
     ],
     editedIndex: -1,
     editedItem: {
@@ -207,6 +208,10 @@ export default {
       this.got_users = await this.$api.post('getusers',{"month" : 4})
       console.log(this.got_users)
     },
+    async updateUser(){
+      const updateComplete = await this.$api.post('updateuser', this.editedItem)
+      console.log(updateComplete)
+    },
     initialize () {
       this.get_users()
     },
@@ -247,9 +252,12 @@ export default {
     save () {
       if (this.editedIndex > -1) {
         Object.assign(this.got_users[this.editedIndex], this.editedItem)
+        //this.editedItem['sender'] = this.$storage.state.user.id
+        this.updateUser()
         console.log(JSON.stringify(this.editedItem))
       } else {
         this.got_users.push(this.editedItem)
+
         console.log(this.editedItem)
       }
       this.close()
