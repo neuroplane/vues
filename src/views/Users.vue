@@ -247,7 +247,7 @@ export default {
     save () {
       if (this.editedIndex > -1) {
         Object.assign(this.got_users[this.editedIndex], this.editedItem)
-        console.log(this.editedItem)
+        console.log(JSON.stringify(this.editedItem))
       } else {
         this.got_users.push(this.editedItem)
         console.log(this.editedItem)
