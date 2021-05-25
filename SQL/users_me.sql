@@ -17,4 +17,4 @@ $$ LANGUAGE 'plpgsql';
 
 alter function users_me(json,uuid) owner to neuroplane;
 
-select users_me('{}'::JSON, 'ae984b66-7a88-414d-88f0-ec5e227e5954'::uuid);
+select users_me('{}'::JSON, 'f104bfe2-ebb6-40ec-a0ec-9d80b87d9174'::uuid);
