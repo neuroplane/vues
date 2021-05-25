@@ -184,9 +184,9 @@ export default {
     headers: [
       { text: 'Фамилия', align: 'start', sortable: true, value: 'surname' },
       { text: 'Имя', align: 'start', sortable: false, value: 'name' },
-      { text: 'Отчество', align: 'start', sortable: false, value: 'patronymic' },
-      { text: 'День рождения', align: 'end', sortable: false, value: 'birthday' },
-      { text: 'Начало работы', align: 'end', sortable: true, value: 'start_date' },
+      //{ text: 'Отчество', align: 'start', sortable: false, value: 'patronymic' },
+      //{ text: 'День рождения', align: 'end', sortable: false, value: 'birthday' },
+      //{ text: 'Начало работы', align: 'end', sortable: true, value: 'start_date' },
       { text: '', align: 'end', value: 'actions', sortable: false },
     ],
     editedIndex: -1,
