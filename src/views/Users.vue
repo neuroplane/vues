@@ -21,6 +21,7 @@
               dense
               outlined
               clearable
+              background-color="#555555"
           ></v-text-field>
           <v-spacer></v-spacer>
           <v-dialog
