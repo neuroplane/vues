@@ -31,9 +31,9 @@
     </v-app-bar>
     <v-main>
       <v-container fluid>
-            <div v-if="!token" class="">
+            <div v-if="!user">
                 <login @done="HandleLoginOrRegisterComplete"/>
-              </div>
+            </div>
             <router-view/>
       </v-container>
     </v-main>
@@ -73,16 +73,17 @@ export default {
 /////////////////
   beforeMount() {
     this.token = this.$cookie.get('token')
+    console.log(this.token)
     if (this.token === 'undefined') {
       this.token = null
     }
+
     //this.$router.push({ name: 'Users' })
     this.$router.push('/about')
 
     console.log('token', this.token)
-    if (this.token) {
-      this.getUser()
-    }
+    console.log(this.user)
+
   },
 //////////////////////
   methods: {
@@ -102,16 +103,23 @@ export default {
 
 /////////////////////////
     async getUser() {
+      console.log('starting getUser() function')
       if (!this.token) {
         return
       }
       try {
-        this.user = await this.$api.get('users/me')
+        console.log(this.user)
+        this.user = await this.$api.get('users/me')//пытаюсь понять ЧЗХ вообще
         this.$storage.set('user', this.user)
-        this.$storage.set('logged_in', true)
+        //this.$storage.set('logged_in', true)
+
       } catch (e) {
         if (e.code === 401) {
           this.$alerterr('Токен устарел, перелогиньтесь')
+          this.doLogout()
+        } else if (e.code === 403) {
+          this.$alerterr(e.message)
+          this.$alerterr('Токен неверный, перелогиньтесь')
           this.doLogout()
         } else {
           this.$alerterr(e.message)
