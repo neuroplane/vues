@@ -73,17 +73,14 @@ export default {
 /////////////////
   beforeMount() {
     this.token = this.$cookie.get('token')
-    console.log(this.token)
     if (this.token === 'undefined') {
       this.token = null
     }
 
-    //this.$router.push({ name: 'Users' })
-    this.$router.push('/about')
-
     console.log('token', this.token)
-    console.log(this.user)
-
+    if (this.token) {
+      this.getUser()
+    }
   },
 //////////////////////
   methods: {
@@ -103,23 +100,15 @@ export default {
 
 /////////////////////////
     async getUser() {
-      console.log('starting getUser() function')
       if (!this.token) {
         return
       }
       try {
-        console.log(this.user)
-        this.user = await this.$api.get('users/me')//пытаюсь понять ЧЗХ вообще
+        this.user = await this.$api.get('users/me')
         this.$storage.set('user', this.user)
-        //this.$storage.set('logged_in', true)
-
       } catch (e) {
         if (e.code === 401) {
           this.$alerterr('Токен устарел, перелогиньтесь')
-          this.doLogout()
-        } else if (e.code === 403) {
-          this.$alerterr(e.message)
-          this.$alerterr('Токен неверный, перелогиньтесь')
           this.doLogout()
         } else {
           this.$alerterr(e.message)
