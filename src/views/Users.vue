@@ -17,6 +17,7 @@
               append-icon="mdi-magnify"
               label="Search"
               single-line
+              type="text"
               hide-details
               dense
               outlined
