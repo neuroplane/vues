@@ -57,7 +57,8 @@ export default {
         { title: 'Main', icon: 'mdi-credit-card-outline', url: 'main' },
         { title: 'Ktu', icon: 'mdi-file-table-box-multiple', url: 'ktu' },
         { title: 'Users', icon: 'mdi-account-group', url: 'users' },
-        { title: 'Input Data', icon: 'mdi-database-plus', url: 'inputdata'}
+        { title: 'Input Data', icon: 'mdi-database-plus', url: 'inputdata'},
+        { title: 'Смены', icon: 'mdi-calendar', url: 'workhours'}
       ],
       right: null,
       show_reg: false,

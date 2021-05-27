@@ -1,6 +1,6 @@
 <template>
-  <div v-if="!this.$storage.state.user" class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+  <div v-if="this.$storage.state.token && this.$storage.state.token" class="home">
+    <h4 align="center">HOME TEMPLATE</h4>
 
   </div>
 </template>

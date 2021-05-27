@@ -11,6 +11,7 @@ const routes = [
   {path: '/ktu', name: 'Ktu', component: () => import(/* webpackChunkName: "about" */ '../views/Ktu.vue')},
   {path: '/users', name: 'Users', component: () => import(/* webpackChunkName: "about" */ '../views/Users.vue')},
   {path: '/inputdata', name: 'Inputdata', component: () => import(/* webpackChunkName: "about" */ '../views/Inputdata.vue')},
+  {path: '/workhours', name: 'Workhours', component: () => import(/* webpackChunkName: "about" */ '../views/Workhours.vue')},
 ]
 
 const router = new VueRouter({
