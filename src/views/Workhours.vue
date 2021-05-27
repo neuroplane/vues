@@ -53,10 +53,24 @@
                       sm="6"
                       md="4"
                   >
+                    <v-select
+                        dense
+                        label="ФИО"
+                        :items="available_users"
+                        item-text="fio"
+                        item-value="id"
+                    ></v-select>
+                  </v-col>
+                  <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                  >
                     <v-text-field
                         dense
-                        v-model="editedItem.surname"
-                        label="Фамилия"
+                        v-model="editedItem.hours"
+                        label="Часы"
+                        type="number"
                     ></v-text-field>
                   </v-col>
                   <v-col
@@ -66,8 +80,9 @@
                   >
                     <v-text-field
                         dense
-                        v-model="editedItem.name"
-                        label="Имя"
+                        v-model="editedItem.change"
+                        label="Замещение"
+                        type="number"
                     ></v-text-field>
                   </v-col>
                   <v-col
@@ -77,41 +92,9 @@
                   >
                     <v-text-field
                         dense
-                        v-model="editedItem.patronymic"
-                        label="Отчество"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                  >
-                    <v-text-field
-                        dense
-                        v-model="editedItem.birthday"
-                        label="День рождения"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                  >
-                    <v-text-field
-                        dense
-                        v-model="editedItem.start_date"
-                        label="Начало работы"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                  >
-                    <v-text-field
-                        dense
-                        v-model="editedItem.internal_code"
-                        label="Внутренний код"
+                        v-model="editedItem.shifts"
+                        label="Смены"
+                        type="number"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -179,13 +162,14 @@
 <script>
 export default {
   data: () => ({
+    available_users: null,
     search: '',
     updateComplete: null,
     dialog: false,
     dialogDelete: false,
     got_workhours: [],
     headers: [
-      { text: 'ФИО', align: 'start', sortable: true, value: 'name' },
+      { text: 'ФИО', align: 'start', sortable: true, value: 'fio' },
       { text: 'Ч', align: 'end', sortable: false, value: 'hours' },
       { text: 'З', align: 'end', sortable: false, value: 'change' },
       { text: 'См', align: 'end', sortable: false, value: 'shifts' },
@@ -228,16 +212,22 @@ export default {
   },
 
   methods: {
+    async getavailableusers(){
+      this.available_users = await this.$api.post('getavailableusers',{})
+      console.log(this.available_users)
+    },
     async get_workhours() {
       this.got_workhours = await this.$api.post('getworkhours',{"month" : 4, "year": 2021})
       console.log(this.got_workhours)
     },
-    async updateUser(){
-      const updateComplete = await this.$api.post('updateuser', this.editedItem)
-      console.log(updateComplete)
+    async updateWorkhours(){
+      console.log(this.editedItem)
+      //const updateComplete = await this.$api.post('updateworkhours', this.editedItem)
+      //console.log(updateComplete)
     },
     initialize () {
       this.get_workhours()
+      this.getavailableusers()
     },
 
     editItem (item) {
@@ -277,7 +267,7 @@ export default {
       if (this.editedIndex > -1) {
         Object.assign(this.got_workhours[this.editedIndex], this.editedItem)
         //this.editedItem['sender'] = this.$storage.state.user.id
-        this.updateUser()
+        this.updateWorkhours()
         console.log(JSON.stringify(this.editedItem))
       } else {
         this.got_workhours.push(this.editedItem)

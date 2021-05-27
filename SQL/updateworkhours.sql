@@ -1,4 +1,4 @@
-create or replace function updateuser(params json, _token uuid) returns json
+create function updateworkhours(params json, _token uuid) returns json
     language plpgsql
 as
 $$
@@ -10,8 +10,11 @@ DECLARE
     _patronymic text;
     _birthday date;
     _start_date date;
+    _wh_row_id bigint;
 BEGIN
+    --{"wh_row_id":1,"name":"Сергей","surname":"Васильев","patronymic":"Александрович","fio":"Васильев С.А.","id":2,"hours":100,"change":50,"shifts":null}
     _user_id = requireint(params, 'userid');
+    _wh_row_id = requireint(params, 'wh_row_id');
     _name = requiretext(params, 'name');
     _surname = requiretext(params, 'surname');
     _patronymic = requiretext(params, 'patronymic');
@@ -27,5 +30,5 @@ BEGIN
 END
 $$;
 
-alter function updateuser(json, uuid) owner to neuroplane;
+alter function updateworkhours(params json, _token uuid)(json, uuid) owner to neuroplane;
 
