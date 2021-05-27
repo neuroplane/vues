@@ -3,7 +3,7 @@
       <v-form>
         <v-text-field dense prepend-inner-icon="mdi-account" outlined type="text" placeholder="логин" v-model="login"></v-text-field>
         <v-text-field dense prepend-inner-icon="mdi-lock" outlined @keyup.enter="doLogin()" type="password" placeholder="пароль" v-model="password"></v-text-field>
-        <v-btn @click="doLogin()" variant="primary" class="btn btn-sm btn-primary btn-block">Вход</v-btn>
+        <v-btn block @click="doLogin()" variant="primary" class="btn btn-sm btn-primary btn-block">Вход</v-btn>
         <v-alert variant="danger" v-if="alert" show>
           <small>{{this.alertmessage}}</small>
         </v-alert>
@@ -45,7 +45,7 @@
         }, { skipTokenCheck: true })
         this.$cookie.set('token', res.token)
         this.$emit('done')
-        //this.$router.push('/main')
+        this.$router.push('/users')
       } catch (e) {
         this.alertmessage = e.message
         this.alert = true
