@@ -19,4 +19,4 @@ select '2021-6-5'::DATE;
 
 select v.fio, rh.role, r.role_id_ru from v v
     left join role_history rh on rh.user_id = v.id
-    left join roles r on r.role_id = rh.role where rh.role = 'regenbogen'
+    left join roles r on r.role_id = rh.role
