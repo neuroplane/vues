@@ -16,3 +16,7 @@ select now();
 SELECT ('2021-' || (select date_part('month', (select now()))) || '-1')::DATE;
 
 select '2021-6-5'::DATE;
+
+select v.fio, rh.role, r.role_id_ru from v v
+    left join role_history rh on rh.user_id = v.id
+    left join roles r on r.role_id = rh.role where rh.role = 'regenbogen'
