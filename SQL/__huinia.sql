@@ -15,12 +15,4 @@ select now();
 --------
 SELECT ('2021-' || (select date_part('month', (select now()))) || '-1')::DATE;
 
-SELECT u.id,
-       ((SELECT u.surname) || ' ' || (SELECT LEFT(u.name,1) || '.') || (SELECT LEFT(u.patronymic,1)) || '.') as fio
-from  users u
-          join job_status js on u.id = js.user_id
-where js.end_date is null
-or '2021-05-01' > js.start_date and '2021-05-01' < js.end_date
-order by u.surname;
-
 select '2021-6-5'::DATE;
