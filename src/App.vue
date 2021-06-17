@@ -103,9 +103,7 @@ export default {
   methods: {
     alertdate(){
       this.actualdate = new Date(this.picker.split('-')[0], this.picker.split('-')[1] - 1);
-      alert(this.actualdate.toString())
-
-
+      alert(this.actualdate.getFullYear() + "-" + this.actualdate.getMonth() + "-" + this.actualdate.getDate())
     },
     doLogout() {
       this.$cookie.delete('token')
