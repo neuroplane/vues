@@ -7,7 +7,9 @@ DECLARE
 BEGIN
     _report_date = requiredate(params, 'report_date');
     SELECT json_agg(a) INTO _response FROM (
-        SELECT u.id, ((SELECT u.surname) || ' ' || (SELECT LEFT(u.name,1) || '.') || (SELECT LEFT(u.patronymic,1)) || '.') AS fio
+        SELECT u.id, ((SELECT u.surname) || ' ' || (SELECT LEFT(u.name,1) || '.') || (SELECT LEFT(u.patronymic,1)) || '.') AS fio,
+               u.surname, u.name, u.patronymic, u.birthday,
+               js.start_date, js.end_date
         FROM  users u JOIN job_status js ON u.id = js.user_id
         WHERE (js.end_date IS NULL AND _report_date > js.start_date)
            OR (_report_date BETWEEN js.start_date AND js.end_date)

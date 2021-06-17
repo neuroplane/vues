@@ -102,7 +102,22 @@
                           dense
                           v-model="editedItem.start_date"
                           label="Начало работы"
+                          type="date"
                       ></v-text-field>
+
+                    </v-col>
+                    <v-col
+                        cols="12"
+                        sm="6"
+                        md="4"
+                    >
+                      <v-text-field
+                          dense
+                          v-model="editedItem.end_date"
+                          label="Конец работы"
+                          type="date"
+                      ></v-text-field>
+
                     </v-col>
                     <v-col
                         cols="12"
@@ -188,6 +203,7 @@ export default {
     headers: [
       { text: 'Фамилия', align: 'start', sortable: true, value: 'surname' },
       { text: 'Имя', align: 'start', sortable: false, value: 'name' },
+      { text: 'Дата +', align: 'start', sortable: true, value: 'start_date' },
       { text: '', align: 'end', value: 'actions', sortable: false },
     ],
     editedIndex: -1,
@@ -197,6 +213,7 @@ export default {
       patronymic: '',
       birthday: '',
       start_date: '',
+      end_date: '',
       internal_code: ''
     },
     defaultItem: {
@@ -205,6 +222,7 @@ export default {
       patronymic: '',
       birthday: '',
       start_date: '',
+      end_date: '',
       internal_code: ''
     },
   }),
