@@ -4,6 +4,7 @@ RETURNS JSON AS $$
 DECLARE
     _response JSON;
     _something TEXT;
+    _token uuid;
 BEGIN
     _something = optionalText(params, 'something');
 

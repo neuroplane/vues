@@ -24,11 +24,11 @@
           <v-date-picker
               v-model="picker"
               type="month"
-              width="100%"
+              full-width
               locale="ru"
-              @input="alertdate"
+              @change="alertdate"
               color="blue"
-              min="2021-04-01"
+              min="2021-04"
               no-title
           ></v-date-picker>
         </v-list-item>
@@ -84,6 +84,7 @@ export default {
       role_child: null,
       drawer: false,
       group: null,
+      actualdate: null
     }
   },
 /////////////////
@@ -101,7 +102,9 @@ export default {
 //////////////////////
   methods: {
     alertdate(){
-      //alert(this.picker)
+      this.actualdate = new Date(this.picker.split('-')[0], this.picker.split('-')[1] - 1);
+      alert(this.actualdate)
+
 
     },
     doLogout() {
