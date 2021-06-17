@@ -6,6 +6,7 @@
         :items-per-page="15"
         class="elevation-1"
         dense
+        mobile-breakpoint="300"
         v-if="this.ktu_items.length"
     ></v-data-table>
   </v-container>
@@ -19,10 +20,10 @@ export default {
       ktu_items: [],
       headers: [
         { text: 'ФИО', value: 'surname' },
-        { text: 'Сумма', value: 'ktu_sum' },
-        { text: 'Штуки', value: 'ktu_amount' },
-        { text: 'Строки', value: 'ktu_lines' },
-        { text: 'Чеки', value: 'ktu_documents' }
+        { text: 'С', value: 'ktu_sum' },
+        { text: 'Ш', value: 'ktu_amount' },
+        { text: 'Стр', value: 'ktu_lines' },
+        { text: 'Ч', value: 'ktu_documents' }
       ]
     }
   },

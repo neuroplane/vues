@@ -20,6 +20,18 @@
 
           </v-list-item-content>
         </v-list-item>
+        <v-list-item>
+          <v-date-picker
+              v-model="picker"
+              type="month"
+              width="100%"
+              locale="ru"
+              @input="alertdate"
+              color="blue"
+              min="2021-04-01"
+              no-title
+          ></v-date-picker>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar v-if="user" dense app>
@@ -47,15 +59,20 @@
 import Login from './controllers/auth/login.vue'
 
 export default {
+
   components: {Login },
   data() {
+
     return {
+      done: [false, false, false],
+      mouseMonth: null,
+      picker: new Date().toISOString().substr(0, 10),
       items: [
         //{ title: 'Home', icon: 'mdi-home', url: 'home' },
-        { title: 'Main', icon: 'mdi-credit-card-outline', url: 'main' },
-        { title: 'Ktu', icon: 'mdi-file-table-box-multiple', url: 'ktu' },
-        { title: 'Users', icon: 'mdi-account-group', url: 'users' },
-        { title: 'Input Data', icon: 'mdi-database-plus', url: 'inputdata'},
+        { title: 'Основная', icon: 'mdi-credit-card-outline', url: 'main' },
+        { title: 'КТУ', icon: 'mdi-file-table-box-multiple', url: 'ktu' },
+        { title: 'Сотрудники', icon: 'mdi-account-group', url: 'users' },
+        { title: 'Ввод данных', icon: 'mdi-database-plus', url: 'inputdata'},
         { title: 'Смены', icon: 'mdi-calendar', url: 'workhours'}
       ],
       right: null,
@@ -83,6 +100,10 @@ export default {
   },
 //////////////////////
   methods: {
+    alertdate(){
+      //alert(this.picker)
+
+    },
     doLogout() {
       this.$cookie.delete('token')
       this.$storage.set('logged_in', false)
