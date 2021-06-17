@@ -103,7 +103,7 @@ export default {
   methods: {
     alertdate(){
       this.actualdate = new Date(this.picker.split('-')[0], this.picker.split('-')[1] - 1);
-      alert(this.actualdate)
+      alert(this.actualdate.toString())
 
 
     },
