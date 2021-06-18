@@ -103,6 +103,7 @@
                           v-model="editedItem.start_date"
                           label="Начало работы"
                           type="date"
+                          locale="ru"
                       ></v-text-field>
 
                     </v-col>
