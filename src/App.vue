@@ -129,7 +129,7 @@ export default {
         this.$storage.set('user', this.user)
       } catch (e) {
         if (e.code === 401) {
-          this.$alerterr('Токен устарел, перелогиньтесь')
+          this.$alerterr('Токен устарел, перелогиньтесь.')
           this.doLogout()
         } else {
           this.$alerterr(e.message)
