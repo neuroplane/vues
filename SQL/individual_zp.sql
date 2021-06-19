@@ -26,12 +26,17 @@ BEGIN
     _ktu_month_lines = (SELECT SUM(c_amount) from public.ktu k where k.period_month = _month and k.period_year = _year);
     _ktu_month_documents = (SELECT SUM(c_documents) from public.ktu k where k.period_month = _month and k.period_year = _year);
 
-    select k.c_sum/_ktu_month_sum + k.c_documents/_ktu_month_documents
-    from ktu k
-    where k.user_id = _selected_user and k.period_year = _year and k.period_month = _month
-    into _actual_ktu;
+    select k.c_sum/_ktu_month_sum + k.c_documents/_ktu_month_documents from ktu k
+        where k.user_id = _selected_user
+        and k.period_year = _year
+         and k.period_month = _month
+        into _actual_ktu;
 
-    SELECT ndfl from taxes where user_id = _selected_user and period_year = _year and period_month = _month into _ndfl;
+    SELECT ndfl from taxes
+        where user_id = _selected_user
+        and period_year = _year
+        and period_month = _month
+        into _ndfl;
     _report_date = requiredate(params, 'report_date');
     _user_id = get_user(_token);
     --------------------------------------------------------------------------------------------------------
