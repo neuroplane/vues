@@ -2,6 +2,13 @@
   <v-app>
     <v-navigation-drawer v-if="user" v-model="drawer" absolute temporary app >
       <v-list dense nav>
+        <v-list-group
+            prepend-icon="mdi-menu"
+            sub-group
+        >
+          <template v-slot:activator>
+            <v-list-item-title>Меню</v-list-item-title>
+          </template>
         <v-list-item
             v-for="item in items"
             :key="item.title"
@@ -20,8 +27,9 @@
 
           </v-list-item-content>
         </v-list-item>
+        </v-list-group>
         <v-list-item>
-          <v-date-picker
+          <v-date-picker class="mt-5"
               v-model="picker"
               type="month"
               full-width
@@ -84,7 +92,8 @@ export default {
       role_child: null,
       drawer: false,
       group: null,
-      actualdate: null
+      actualdate: null,
+      report_date: null
     }
   },
 /////////////////
@@ -93,7 +102,7 @@ export default {
     if (this.token === 'undefined') {
       this.token = null
     }
-
+    this.alertdate()
     console.log('token', this.token)
     if (this.token) {
       this.getUser()
@@ -102,8 +111,13 @@ export default {
 //////////////////////
   methods: {
     alertdate(){
-      this.actualdate = new Date(this.picker.split('-')[0], this.picker.split('-')[1] - 1);
-      alert(this.actualdate.getFullYear() + "-" + this.actualdate.getMonth() + "-" + this.actualdate.getDate())
+      this.actualdate = new Date(this.picker.split('-')[0], this.picker.split('-')[1]-1,1);
+      //alert(this.actualdate.getFullYear() + "-" + this.actualdate.getMonth() + "-" + this.actualdate.getDate())
+      this.report_date = this.actualdate.getFullYear() + "-" + this.actualdate.getMonth() + "-" + this.actualdate.getDate()
+      this.$storage.set('report_date', this.report_date)
+      console.log(this.$storage.state.report_date)
+      //console.log(this.actualdate)
+      //console.log(typeof this.actualdate)
     },
     doLogout() {
       this.$cookie.delete('token')
