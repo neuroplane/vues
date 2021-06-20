@@ -1,5 +1,6 @@
 <template>
     <v-data-table
+        v-if="$storage.state.user"
         dense
         :headers="headers"
         :items="got_users"
@@ -13,6 +14,7 @@
       <template v-slot:top>
         <v-toolbar            flat        >
           <v-text-field
+              v-if="got_users"
               v-model="search"
               append-icon="mdi-magnify"
               label="Search"
@@ -103,6 +105,7 @@
                           v-model="editedItem.start_date"
                           label="Начало работы"
                           type="date"
+                          locale="ru"
                       ></v-text-field>
 
                     </v-col>
@@ -248,7 +251,7 @@ export default {
 
   methods: {
     async get_users() {
-      this.got_users = await this.$api.post('getusers',{"month" : 4})
+      this.got_users = await this.$api.post('getusers',{"report_date" : this.$storage.state.report_date})
       console.log(this.got_users)
     },
     async updateUser(){

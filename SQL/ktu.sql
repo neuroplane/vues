@@ -5,12 +5,17 @@ $$
 DECLARE
     _response JSON;
     _month integer;
+    _year int;
     _ktu_month_sum float;
     _ktu_month_amount float;
     _ktu_month_lines float;
     _ktu_month_documents float;
+    _user_id int;
 BEGIN
+    _user_id = get_user(_token);
+    IF _user_id IS NULL THEN RAISE EXCEPTION 'Wrong username and/or password' USING ERRCODE='ER403'; END IF;
     _month = requireint(params, 'month');
+    _year = requireint(params, 'year');
     _ktu_month_sum = (SELECT SUM(c_sum) from public.ktu k where k.period_month = _month);
     _ktu_month_amount = (SELECT SUM(c_amount) from public.ktu k where k.period_month = _month);
     _ktu_month_lines = (SELECT SUM(c_amount) from public.ktu k where k.period_month = _month);
