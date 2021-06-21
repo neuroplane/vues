@@ -44,7 +44,7 @@
     </v-navigation-drawer>
     <v-app-bar v-if="user" dense app>
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-      <v-app-bar-title>{{ this.$storage.state.month_date + '.' + this.$storage.state.year_date }}</v-app-bar-title>
+      <v-app-bar-title>{{ this.$storage.state.title_date }}</v-app-bar-title>
       <v-spacer></v-spacer>
       <v-btn small plain @click="doLogout">
         <v-icon>mdi-exit-to-app</v-icon>
@@ -97,7 +97,8 @@ export default {
       report_date: null,
       month_date: null,
       year_date: null,
-      day_date: 1
+      day_date: 1,
+      date_to_convert: null
     }
   },
 /////////////////
@@ -115,15 +116,19 @@ export default {
 //////////////////////
   methods: {
     alertdate(){
-      this.month_date = this.picker.split('-')[1]
+      this.month_date = this.picker.split('-')[1]-1
       this.year_date = this.picker.split('-')[0]
-      this.actualdate = new Date(this.picker.split('-')[0], this.picker.split('-')[1]-1,1);
+      this.actualdate = new Date(this.picker.split('-')[0], this.picker.split('-')[1],1);
       //alert(this.actualdate.getFullYear() + "-" + this.actualdate.getMonth() + "-" + this.actualdate.getDate())
       this.report_date = this.actualdate.getFullYear() + "-" + this.actualdate.getMonth() + "-" + this.actualdate.getDate()
       this.$storage.set('report_date', this.report_date)
-      this.$storage.set('month_date', this.month_date)
+      this.$storage.set('month_date', this.month_date+1)
       this.$storage.set('year_date', this.year_date)
       this.$storage.set('day_date', this.day_date)
+      const options = { month: 'long', year:'2-digit'};
+      const newreportdate = new Date(Date.UTC(this.year_date, this.month_date, this.day_date))
+      this.$storage.set('title_date', newreportdate.toLocaleDateString('ru-RU', options))
+      console.log('title date ' + this.$storage.state.title_date)
       console.log(this.year_date + "-" + this.month_date + "-" + this.day_date)
       console.log(this.$storage.state.report_date)
       //console.log(this.actualdate)

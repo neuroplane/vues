@@ -20,24 +20,56 @@
         <v-card>
           <v-card-title
               v-if="this.user_data.length">
-            {{ user_data[0].surname }}
+            {{ user_data[0].surname + " " + user_data[0].name}}
           </v-card-title>
 
           <v-card-text
               v-if="this.user_data.length">
             <v-simple-table dense>
               <tbody>
+              <tr v-if="user_data[0].month_ru">
+                <td>Месяц</td>
+                <td>{{ user_data[0].month_ru}}</td>
+              </tr>
+              <tr v-if="user_data[0].role_id_ru">
+                <td>Тип</td>
+                <td>{{ user_data[0].role_id_ru}}</td>
+              </tr>
               <tr v-if="user_data[0].hours">
                 <td>Часы</td>
                 <td>{{ user_data[0].hours}}</td>
+              </tr>
+              <tr v-if="user_data[0].shifts">
+                <td>Смены</td>
+                <td>{{ user_data[0].shifts}}</td>
+              </tr>
+              <tr v-if="user_data[0].change">
+                <td>Замещения</td>
+                <td>{{ user_data[0].change}}</td>
               </tr>
               <tr v-if="user_data[0].ktu">
                 <td>КТУ</td>
                 <td>{{ user_data[0].ktu}}</td>
               </tr>
+              <tr v-if="user_data[0].fine">
+                <td>Штрафы</td>
+                <td>{{ user_data[0].fine}}</td>
+              </tr>
+              <tr v-if="user_data[0].bonus">
+                <td>Поощрения</td>
+                <td>{{ user_data[0].bonus}}</td>
+              </tr>
               <tr v-if="user_data[0].ndfl">
                 <td>НДФЛ</td>
                 <td>{{ user_data[0].ndfl}}</td>
+              </tr>
+              <tr v-if="user_data[0].aliments">
+                <td>Алименты</td>
+                <td>{{ user_data[0].aliments}}</td>
+              </tr>
+              <tr v-if="user_data[0].bank">
+                <td>На карту</td>
+                <td>{{ user_data[0].bank}}</td>
               </tr>
               <tr v-if="user_data[0].credit">
                 <td>Авансы</td>
@@ -62,9 +94,10 @@
             <v-btn
                 color="primary"
                 text
-                @click="zp_dialog = false"
+                @click="zp_dialog = false
+                user_data = []"
             >
-              I accept
+              Закрыть
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -107,7 +140,7 @@ export default {
       //alert(item.fio + " " + item.birthday)
     },
     async get_ktu() {
-      this.workingUsers = await this.$api.post('getworkingusers',{"report_date" : "2021-05-01"})
+      this.workingUsers = await this.$api.post('getworkingusers',{"report_date" : this.$storage.state.report_date})
       console.log(this.workingUsers)
     }
   },
