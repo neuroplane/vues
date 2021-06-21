@@ -43,7 +43,7 @@ BEGIN
     SELECT json_agg(a)
     INTO _response
     FROM (
-             select u.id,
+             select round((_actual_ktu*100)::NUMERIC,2) as ktu,u.id,
                     u.surname,
                     u.name,
                     c.amount as credit,
@@ -78,4 +78,4 @@ $$;
 
 alter function individualzp(json, uuid) owner to neuroplane;
 
-select public.individualzp('{"month":"05","report_date":"2021-4-1","selected_user":64,"year":"2021"}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
+select public.individualzp('{"month":"05","report_date":"2021-4-1","selected_user":19,"year":"2021"}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);

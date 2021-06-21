@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container class="col-sm-4 offset-sm-4 col-md-2 offset-md-5 col-lg-2 offset-lg-5">
       <v-form>
         <v-text-field dense prepend-inner-icon="mdi-account" outlined type="text" placeholder="логин" v-model="login"></v-text-field>
         <v-text-field dense prepend-inner-icon="mdi-lock" outlined @keyup.enter="doLogin()" type="password" placeholder="пароль" v-model="password"></v-text-field>
@@ -45,7 +45,7 @@
         }, { skipTokenCheck: true })
         this.$cookie.set('token', res.token)
         this.$emit('done')
-        this.$router.push('/users')
+        this.$router.push('/main')
       } catch (e) {
         this.alertmessage = e.message
         this.alert = true

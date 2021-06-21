@@ -1,5 +1,5 @@
 <template>
-  <v-container >
+  <v-container class="col-xl-8 offset-xl-2">
     <v-data-table
         :headers="headers"
         :items="workingUsers"
@@ -22,7 +22,10 @@
               v-if="this.user_data.length">
             {{ user_data[0].surname + " " + user_data[0].name}}
           </v-card-title>
-
+          <v-card-title
+              v-if="!this.user_data.length">
+            Данных нет
+          </v-card-title>
           <v-card-text
               v-if="this.user_data.length">
             <v-simple-table dense>
@@ -69,7 +72,7 @@
               </tr>
               <tr v-if="user_data[0].bank">
                 <td>На карту</td>
-                <td>{{ user_data[0].bank}}</td>
+                <td>({{ currency(user_data[0].bank)}}</td>
               </tr>
               <tr v-if="user_data[0].credit">
                 <td>Авансы</td>
@@ -79,13 +82,14 @@
                 <td>Надбавки</td>
                 <td>{{ user_data[0].extra}}</td>
               </tr>
+              <tr>
+                <td>Надбавки (тест)</td>
+                <td>{{ selected_extra }}&nbsp<v-icon small color="green" @click="selected_extra=selected_extra+100">mdi-plus</v-icon>&nbsp<v-icon small color="red" @click="selected_extra=selected_extra-100">mdi-minus</v-icon></td>
+              </tr>
               </tbody>
             </v-simple-table>
           </v-card-text>
-          <v-card-text
-            v-if="!this.user_data.length">
-            <h6>Данных нет</h6>
-          </v-card-text>
+
 
           <v-divider></v-divider>
 
@@ -112,6 +116,7 @@ export default {
   name: "Main.vue",
   data() {
     return {
+      selected_extra: 100,
       zp_dialog: false,
       user_data: [],
       workingUsers: [],
