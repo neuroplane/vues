@@ -128,7 +128,7 @@ export default {
       const options = { month: 'long', year:'2-digit'};
       const newreportdate = new Date(Date.UTC(this.year_date, this.month_date, this.day_date))
       this.$storage.set('title_date', newreportdate.toLocaleDateString('ru-RU', options))
-      //this.drawer = false
+      this.drawer = false
       console.log(this.$storage.state.title_date)
     },
     doLogout() {

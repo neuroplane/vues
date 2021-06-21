@@ -57,15 +57,18 @@ BEGIN
                     bank,
                     r.role_id_ru,
                     m.month_ru,
-                    wh.period_year
+                    wh.period_year,
+                    ex.amount as extra
              from work_hours wh
                       left join users u on wh.user_id = u.id
                       left join credit c using (period_year, period_month, user_id)
                       left join taxes t using (period_year, period_month, user_id)
                       left join fines_bonuses fb using (period_year, period_month, user_id)
+                      left join extra ex using (period_year, period_month, user_id)
                       left join ktu k using (period_year, period_month, user_id)
                       left join role_history rh on u.id = rh.user_id
                       left join roles r on rh.role = r.role_id
+
              left join months m on wh.period_month = m.month_id
              where u.id = _selected_user
                and wh.period_month = _month

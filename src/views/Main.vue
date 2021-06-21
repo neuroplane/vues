@@ -72,7 +72,7 @@
               </tr>
               <tr v-if="user_data[0].bank">
                 <td>На карту</td>
-                <td>({{ user_data[0].bank}}</td>
+                <td>{{ user_data[0].bank }}</td>
               </tr>
               <tr v-if="user_data[0].credit">
                 <td>Авансы</td>
@@ -80,11 +80,7 @@
               </tr>
               <tr v-if="user_data[0].extra">
                 <td>Надбавки</td>
-                <td>{{ user_data[0].extra}}</td>
-              </tr>
-              <tr>
-                <td>Надбавки (тест)</td>
-                <td>{{ selected_extra }}&nbsp<v-icon small color="green" @click="selected_extra=selected_extra+100">mdi-plus</v-icon>&nbsp<v-icon small color="red" @click="selected_extra=selected_extra-100">mdi-minus</v-icon></td>
+                <td>{{ user_data[0].extra }}</td>
               </tr>
               </tbody>
             </v-simple-table>
@@ -116,12 +112,11 @@ export default {
   name: "Main.vue",
   data() {
     return {
-      selected_extra: 100,
       zp_dialog: false,
       user_data: [],
       workingUsers: [],
       headers: [
-        { text: 'ФИО', value: 'fio' },
+        { text: 'Сотрудник', value: 'fio' },
         //{ text: 'С', value: 'ktu_sum' },
         //{ text: 'Ш', value: 'ktu_amount' },
         //{ text: 'Стр', value: 'ktu_lines' },
