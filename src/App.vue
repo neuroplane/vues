@@ -93,7 +93,10 @@ export default {
       drawer: false,
       group: null,
       actualdate: null,
-      report_date: null
+      report_date: null,
+      month_date: null,
+      year_date: null,
+      day_date: 1
     }
   },
 /////////////////
@@ -111,10 +114,13 @@ export default {
 //////////////////////
   methods: {
     alertdate(){
+      this.month_date = this.picker.split('-')[1]
+      this.year_date = this.picker.split('-')[0]
       this.actualdate = new Date(this.picker.split('-')[0], this.picker.split('-')[1]-1,1);
       //alert(this.actualdate.getFullYear() + "-" + this.actualdate.getMonth() + "-" + this.actualdate.getDate())
       this.report_date = this.actualdate.getFullYear() + "-" + this.actualdate.getMonth() + "-" + this.actualdate.getDate()
       this.$storage.set('report_date', this.report_date)
+      console.log(this.year_date + "-" + this.month_date + "-" + this.day_date)
       console.log(this.$storage.state.report_date)
       //console.log(this.actualdate)
       //console.log(typeof this.actualdate)
