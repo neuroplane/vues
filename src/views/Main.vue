@@ -72,7 +72,7 @@
               </tr>
               <tr v-if="user_data[0].bank">
                 <td>На карту</td>
-                <td>({{ currency(user_data[0].bank)}}</td>
+                <td>({{ user_data[0].bank}}</td>
               </tr>
               <tr v-if="user_data[0].credit">
                 <td>Авансы</td>
