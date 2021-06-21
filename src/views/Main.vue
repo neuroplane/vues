@@ -84,7 +84,7 @@
           </v-card-text>
           <v-card-text
             v-if="!this.user_data.length">
-            Данных нет
+            <h6>Данных нет</h6>
           </v-card-text>
 
           <v-divider></v-divider>

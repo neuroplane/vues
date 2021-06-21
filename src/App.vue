@@ -128,11 +128,7 @@ export default {
       const options = { month: 'long', year:'2-digit'};
       const newreportdate = new Date(Date.UTC(this.year_date, this.month_date, this.day_date))
       this.$storage.set('title_date', newreportdate.toLocaleDateString('ru-RU', options))
-      console.log('title date ' + this.$storage.state.title_date)
-      console.log(this.year_date + "-" + this.month_date + "-" + this.day_date)
-      console.log(this.$storage.state.report_date)
-      //console.log(this.actualdate)
-      //console.log(typeof this.actualdate)
+      this.drawer = false
     },
     doLogout() {
       this.$cookie.delete('token')
