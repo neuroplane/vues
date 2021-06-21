@@ -51,10 +51,6 @@ BEGIN
             left join credit c using (period_year, period_month, user_id)
             left join extra e using (period_year, period_month, user_id)
         where k.user_id = _selected_user and period_month = _month and period_year = _year
-        --
-        --select round((_actual_ktu*100)::NUMERIC,2) as ktu, _ndfl, u.id, u.surname from users u
-        --right join ktu k2  using (period_month, period_year)
-        --where u.id = _selected_user
     ) AS a;
     --------------------------------------------------------------------------------------------------------
     RETURN coalesce(_response,'[]');

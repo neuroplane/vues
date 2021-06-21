@@ -4,8 +4,11 @@ CREATE OR REPLACE FUNCTION getworkingusers(params JSON, _token uuid)
 DECLARE
     _response JSON;
     _report_date date;
+    _user_id int;
 BEGIN
+    _user_id = get_user(_token);
     _report_date = requiredate(params, 'report_date');
+
     SELECT json_agg(a) INTO _response FROM (
         SELECT u.id, ((SELECT u.surname) || ' ' || (SELECT LEFT(u.name,1) || '.') || (SELECT LEFT(u.patronymic,1)) || '.') AS fio,
                u.surname, u.name, u.patronymic, u.birthday,
@@ -22,4 +25,4 @@ $$ LANGUAGE 'plpgsql';
 
 ALTER FUNCTION getworkingusers(json, uuid) OWNER TO neuroplane;
 
-SELECT * FROM getworkingusers('{"report_date":"2021-05-01"}'::JSON, 'b9391b1c-b70b-46fd-b142-1d9b5f78979d');
+SELECT * FROM getworkingusers('{"report_date":"2021-05-01"}'::JSON, '5ef7d1db-0b82-45e4-b672-4d86d6d48f2a');
