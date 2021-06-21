@@ -18,41 +18,34 @@
           width="500"
       >
         <v-card>
-          <v-card-title>
-            Полученные данные
+          <v-card-title
+              v-if="this.user_data.length">
+            {{ user_data[0].surname }}
           </v-card-title>
 
           <v-card-text
               v-if="this.user_data.length">
-            {{ user_data[0].surname }}
             <v-simple-table dense>
               <tbody>
-              <tr>
-                <td
-                  >
-                  Фамилия
-                </td>
-                <td>
-                  {{ user_data[0].surname}}
-                </td>
+              <tr v-if="user_data[0].hours">
+                <td>Часы</td>
+                <td>{{ user_data[0].hours}}</td>
+              </tr>
+              <tr v-if="user_data[0].ktu">
+                <td>КТУ</td>
+                <td>{{ user_data[0].ktu}}</td>
               </tr>
               <tr v-if="user_data[0].ndfl">
-                <td
-                >
-                  НДФЛ
-                </td>
-                <td>
-                  {{ user_data[0].ndfl}}
-                </td>
+                <td>НДФЛ</td>
+                <td>{{ user_data[0].ndfl}}</td>
               </tr>
               <tr v-if="user_data[0].credit">
-                <td
-                >
-                  Авансы
-                </td>
-                <td>
-                  {{ user_data[0].credit}}
-                </td>
+                <td>Авансы</td>
+                <td>{{ user_data[0].credit}}</td>
+              </tr>
+              <tr v-if="user_data[0].extra">
+                <td>Надбавки</td>
+                <td>{{ user_data[0].extra}}</td>
               </tr>
               </tbody>
             </v-simple-table>
