@@ -19,4 +19,8 @@ select round(sum((m_cash + m_bank)*m_share/10000)::numeric,0) as m_fot,
        round(sum((m_cash + m_bank + sad_cash + sad_bank + mir_cash + mir_bank)*sklad_share/10000)::numeric,0) as sklad_fot,
        round(sum((m_cash + m_bank + sad_cash + sad_bank)*adm_share/10000)::numeric, 0) as adm_fot,
        period_month, period_year
-       from constants group by period_year, period_month, m_share, sklad_share, adm_share order by period_year, period_month
+       from constants group by period_year, period_month, m_share, sklad_share, adm_share order by period_year, period_month;
+
+select rh.role, rh.role_start_date, js.start_date from role_history rh
+                                                           join job_status js on rh.user_id = js.user_id
+where rh.user_id = 54 and rh.role_start_date<'2010-01-01' order by role_start_date
