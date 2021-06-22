@@ -15,8 +15,7 @@ select now();
 --------
 SELECT ('2021-' || (select date_part('month', (select now()))) || '-1')::DATE;
 
-select '2021-6-5'::DATE;
-
-select v.fio, rh.role, r.role_id_ru from v v
-    left join role_history rh on rh.user_id = v.id
-    left join roles r on r.role_id = rh.role
+select sum(m_cash + m_bank)*m_share/10000::float4 as m_fot,
+       sum(m_cash + m_bank + sad_cash + sad_bank + mir_cash + mir_bank)*sklad_share/10000::float4 as sklad_fot,
+       sum(m_cash + m_bank + sad_cash + sad_bank)*adm_share/10000::float4 as adm_fot
+       from constants where period_month=5 and period_year=2021 group by m_share, sklad_share, adm_share
