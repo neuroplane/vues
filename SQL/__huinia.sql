@@ -15,7 +15,8 @@ select now();
 --------
 SELECT ('2021-' || (select date_part('month', (select now()))) || '-1')::DATE;
 
-select sum(m_cash + m_bank)*m_share/10000::float4 as m_fot,
-       sum(m_cash + m_bank + sad_cash + sad_bank + mir_cash + mir_bank)*sklad_share/10000::float4 as sklad_fot,
-       sum(m_cash + m_bank + sad_cash + sad_bank)*adm_share/10000::float4 as adm_fot
-       from constants where period_month=5 and period_year=2021 group by m_share, sklad_share, adm_share
+select round(sum((m_cash + m_bank)*m_share/10000)::numeric,0) as m_fot,
+       round(sum((m_cash + m_bank + sad_cash + sad_bank + mir_cash + mir_bank)*sklad_share/10000)::numeric,0) as sklad_fot,
+       round(sum((m_cash + m_bank + sad_cash + sad_bank)*adm_share/10000)::numeric, 0) as adm_fot,
+       period_month, period_year
+       from constants group by period_year, period_month, m_share, sklad_share, adm_share order by period_year, period_month
