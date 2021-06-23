@@ -5,7 +5,7 @@ as
 $$
 DECLARE
     _response JSON;
-    _report_date date;
+    --_report_date date;
     _user_id bigint;
     _selected_user int;
     _month int;
@@ -37,7 +37,7 @@ BEGIN
         and period_year = _year
         and period_month = _month
         into _ndfl;
-    _report_date = requiredate(params, 'report_date');
+    --_report_date = requiredate(params, 'report_date');
     _user_id = get_user(_token);
     --------------------------------------------------------------------------------------------------------
     SELECT json_agg(a)
@@ -85,4 +85,4 @@ $$;
 
 alter function individualzp(json, uuid) owner to neuroplane;
 
-select public.individualzp('{"month":"05","report_date":"2001-4-1","selected_user":19,"year":"2011"}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
+select public.individualzp('{"month":"05","selected_user":19,"year":"2021"}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
