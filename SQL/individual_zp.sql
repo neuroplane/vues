@@ -46,6 +46,7 @@ BEGIN
              select round((_actual_ktu*100)::NUMERIC,2) as ktu,u.id,
                     u.surname,
                     u.name,
+                    get_role(_selected_user, _month, _year) as role,
                     c.amount as credit,
                     wh.hours,
                     shifts,
@@ -61,6 +62,7 @@ BEGIN
                     ex.amount as extra
              from work_hours wh
                       left join users u on wh.user_id = u.id
+
                       left join credit c using (period_year, period_month, user_id)
                       left join taxes t using (period_year, period_month, user_id)
                       left join fines_bonuses fb using (period_year, period_month, user_id)
@@ -68,11 +70,13 @@ BEGIN
                       left join ktu k using (period_year, period_month, user_id)
                       left join role_history rh on u.id = rh.user_id
                       left join roles r on rh.role = r.role_id
+                      left join job_status js on u.id = js.user_id
 
              left join months m on wh.period_month = m.month_id
              where u.id = _selected_user
                and wh.period_month = _month
                and wh.period_year = _year
+               -- and js.start_date > _report_date
     ) AS a;
     --------------------------------------------------------------------------------------------------------
     RETURN coalesce(_response,'[]');
@@ -81,4 +85,4 @@ $$;
 
 alter function individualzp(json, uuid) owner to neuroplane;
 
-select public.individualzp('{"month":"05","report_date":"2021-4-1","selected_user":19,"year":"2021"}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
+select public.individualzp('{"month":"05","report_date":"2001-4-1","selected_user":19,"year":"2011"}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
