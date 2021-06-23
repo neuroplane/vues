@@ -34,9 +34,9 @@
                 <td>Месяц</td>
                 <td>{{ user_data[0].month_ru}}</td>
               </tr>
-              <tr v-if="user_data[0].role_id_ru">
-                <td>Тип</td>
-                <td>{{ user_data[0].role_id_ru}}</td>
+              <tr v-if="user_data[0].role">
+                <td>Роль</td>
+                <td>{{ user_data[0].role}}</td>
               </tr>
               <tr v-if="user_data[0].hours">
                 <td>Часы</td>
