@@ -36,7 +36,9 @@
               locale="ru"
               @change="alertdate"
               color="blue"
-              min="2021-04"
+              :min="picker_range.first_month"
+              :max="picker_range.last_month"
+              :show-current="picker_range.last_month"
               no-title
           ></v-date-picker>
         </v-list-item>
@@ -98,7 +100,8 @@ export default {
       month_date: null,
       year_date: null,
       day_date: 1,
-      date_to_convert: null
+      date_to_convert: null,
+      picker_range: []
     }
   },
 /////////////////
@@ -107,26 +110,31 @@ export default {
     if (this.token === 'undefined') {
       this.token = null
     }
+    this.get_picker_range()
     this.alertdate()
+
     console.log('token', this.token)
     if (this.token) {
       this.getUser()
     }
   },
-//////////////////////
+////////////////////// Доделать сраную дату в пикере!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   methods: {
+    async get_picker_range(){
+      this.picker_range = await this.$api.post('getpickerrange',{})
+    },
     alertdate(){
-      this.month_date = this.picker.split('-')[1]-1
+      this.month_date = this.picker.split('-')[1]
       this.year_date = this.picker.split('-')[0]
       this.actualdate = new Date(this.picker.split('-')[0], this.picker.split('-')[1],1);
       //alert(this.actualdate.getFullYear() + "-" + this.actualdate.getMonth() + "-" + this.actualdate.getDate())
       this.report_date = this.actualdate.getFullYear() + "-" + this.actualdate.getMonth() + "-" + this.actualdate.getDate()
       this.$storage.set('report_date', this.report_date)
-      this.$storage.set('month_date', this.month_date+1)
+      this.$storage.set('month_date', this.month_date)
       this.$storage.set('year_date', this.year_date)
       this.$storage.set('day_date', this.day_date)
       const options = { month: 'long', year:'2-digit'};
-      const newreportdate = new Date(Date.UTC(this.year_date, this.month_date, this.day_date))
+      const newreportdate = new Date(Date.UTC(this.year_date, this.month_date-1, this.day_date))
       this.$storage.set('title_date', newreportdate.toLocaleDateString('ru-RU', options))
       this.drawer = false
       console.log(this.$storage.state.title_date)
