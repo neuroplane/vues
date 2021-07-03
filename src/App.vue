@@ -122,6 +122,7 @@ export default {
   methods: {
     async get_picker_range(){
       this.picker_range = await this.$api.post('getpickerrange',{})
+      console.log(this.picker_range)
     },
     alertdate(){
       this.month_date = this.picker.split('-')[1]
