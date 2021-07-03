@@ -105,12 +105,15 @@ export default {
     }
   },
 /////////////////
+  mounted() {
+    this.get_picker_range()
+  },
   beforeMount() {
     this.token = this.$cookie.get('token')
     if (this.token === 'undefined') {
       this.token = null
     }
-    this.get_picker_range()
+
     this.alertdate()
 
     console.log('token', this.token)
