@@ -5,23 +5,24 @@ $$
 DECLARE
     _response JSON;
     _user_id bigint;
-    _name text;
-    _surname text;
-    _patronymic text;
-    _birthday date;
-    _start_date date;
-    _wh_row_id bigint;
+    _month int;
+    _year int;
+    _hours int;
+    _change int;
+    _shifts int;
+
 BEGIN
     --{"wh_row_id":1,"name":"Сергей","surname":"Васильев","patronymic":"Александрович","fio":"Васильев С.А.","id":2,"hours":100,"change":50,"shifts":null}
     _user_id = requireint(params, 'userid');
-    _wh_row_id = requireint(params, 'wh_row_id');
-    _name = requiretext(params, 'name');
-    _surname = requiretext(params, 'surname');
-    _patronymic = requiretext(params, 'patronymic');
-    _birthday = requiredate(params, 'birthday');
-    _start_date = requiredate(params, 'start_date');
-    UPDATE public.users u SET name=_name, surname=_surname, patronymic=_patronymic, birthday=_birthday WHERE u.id = _user_id;
-    UPDATE job_status js SET start_date = _start_date where js.user_id = _user_id;
+    _month = requireint(params, 'month');
+    _year = requireint(params, 'year');
+    _hours = optionalint(params, 'hours');
+    _change = optionalint(params, 'change');
+    _shifts = optionalint(params, 'shifts');
+    INSERT INTO work_hours (id, period_month, period_year, user_id, hours, change, shifts)
+        VALUES (DEFAULT, _user_id, _month, _year, _hours, _change, _shifts)
+    ON CONFLICT ON CONSTRAINT work_hours_user_id_period_month_period_year_key
+        DO UPDATE SET hours = _hours, change = _change, shifts = _shifts;
     SELECT json_agg(a) INTO _response FROM (
         SELECT 'Update userid ' || _user_id || ' successful' as callback
     ) AS a;
@@ -30,5 +31,7 @@ BEGIN
 END
 $$;
 
-alter function updateworkhours(params json, _token uuid)(json, uuid) owner to neuroplane;
+alter function updateworkhours(params json, _token uuid) owner to neuroplane;
+
+select updateworkhours({user_id})
 
