@@ -85,7 +85,7 @@ export default {
         { title: 'Сотрудники', icon: 'mdi-account-group', url: 'users' },
         { title: 'Ввод данных', icon: 'mdi-database-plus', url: 'inputdata'},
         { title: 'Смены', icon: 'mdi-calendar', url: 'workhours'},
-        { title: 'Проверка таблиц', icon: 'mdi-check', url: 'about'},
+        { title: 'Проверка таблиц', icon: 'mdi-check', url: 'about'}
       ],
       right: null,
       show_reg: false,
