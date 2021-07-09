@@ -1,17 +1,38 @@
 <template>
   <v-container v-if="$storage.state.user" >
-    <v-row justify="center">
-
-    </v-row>
+    <v-btn @click="get_tables()">ОБНОВИТЬ</v-btn>
+    <div v-bind:key="name" v-for="(value, name) in tableStats">
+      <p >{{ name }}: {{ value }}</p>
+    </div>
   </v-container>
 </template>
+
 <script>
 export default {
-  name: "About",
-  data() {
-    return {
-      picker: new Date().toISOString().substr(0, 10),
-    }
-  }
+  data: () => ({
+    tableStats: null,
+  }),
+
+  computed: {
+
+  },
+
+  methods: {
+    async get_tables() {
+      this.tableStats = await this.$api.post('checktables',{"month":this.$storage.state.month_date, "year" : this.$storage.state.year_date})
+      console.log(this.tableStats)
+    },
+
+  },
+  initialize () {
+
+  },
+  mounted() {
+
+  },
+  beforeMount() {
+    //this.get_tables()
+  },
+  name: "About"
 }
 </script>

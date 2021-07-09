@@ -7,15 +7,28 @@ DECLARE
     _response JSON;
     _month integer;
     _year integer;
+    _constants bool;
+    _credit bool;
+    _extra bool;
+    _fines_bonuses bool;
+    _ktu bool;
+    _taxes bool;
+    _work_hours bool;
 BEGIN
     _month = requireint(params, 'month');
     _year = requireint(params, 'year');
-    SELECT json_agg(a) INTO _response FROM (
-        SELECT m.month_ru, u.surname, k.c_sum, k.c_amount, k.c_lines,
-        (SELECT k.c_sum*2) as cool from public.ktu k
-        join users u on k.user_id = u.id
-        join public.months m on m.month_id = k.period_month
-      where k.period_month = _month
+    select exists( select period_month from constants where period_month = _month and period_year = _year) into _constants;
+    select exists( select period_month from credit where period_month = _month and period_year = _year) into _credit;
+    select exists( select period_month from extra where period_month = _month and period_year = _year) into _extra;
+    select exists( select period_month from ktu where period_month = _month and period_year = _year) into _ktu;
+    select exists( select period_month from fines_bonuses where period_month = _month and period_year = _year) into _fines_bonuses;
+    select exists( select period_month from taxes where period_month = _month and period_year = _year) into _taxes;
+    select exists( select period_month from work_hours where period_month = _month and period_year = _year) into _work_hours;
+
+
+
+    SELECT to_json(a) INTO _response FROM (
+        SELECT _constants, _credit, _extra, _ktu, _fines_bonuses, _taxes, _work_hours
     ) AS  a;
     RETURN coalesce(_response,'[]');
 END
@@ -23,3 +36,4 @@ $$;
 
 alter function checktables(json, uuid) owner to neuroplane;
 
+select checktables('{"month":5, "year" : 2021}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
