@@ -12,7 +12,7 @@
     >
 
       <template v-slot:top>
-        <v-toolbar            flat        >
+        <v-toolbar flat>
           <v-text-field
               v-if="got_users"
               v-model="search"
