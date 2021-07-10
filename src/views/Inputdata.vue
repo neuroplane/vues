@@ -1,67 +1,45 @@
 <template>
-  <div>
-  <v-card v-for="item in got_users" :key="item.userid"
-      class="mx-auto"
-      max-width="344"
-  >
+  <v-container>
+    <v-textarea v-model="tsvdata" :value="tsvdata">
 
-    <v-card-title>
-      {{ item.surname }}
-    </v-card-title>
-
-    <v-card-subtitle>
-      {{ item.name }}
-    </v-card-subtitle>
-
-    <v-card-actions>
-      <v-btn
-          color="orange lighten-2"
-          text
-      >
-        Раскрыть
-      </v-btn>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-          icon
-          @click="show = !show"
-      >
-        <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-      </v-btn>
-    </v-card-actions>
-
-    <v-expand-transition>
-      <div v-show="show">
-        <v-divider></v-divider>
-
-        <v-card-text>
-          {{item.birthday}}
-        </v-card-text>
-      </div>
-    </v-expand-transition>
-  </v-card>
-  </div>
+    </v-textarea>
+    <v-btn @click="report_tsv()">REPORT TSV</v-btn>
+  </v-container>
 </template>
 
 <script>
 export default {
   data () {
     return {
-      got_users: [],
-      show: false
+      tsvdata: null,
+      tsv_res: null
     }
   },
   computed: {
 
   },
   beforeMount() {
-    this.get_users()
+
   },
   methods: {
-    async get_users() {
-      this.got_users = await this.$api.post('getusers',{"month" : 4})
-      console.log(this.got_users)
+    tsvJSON(tsv) {
+      console.log('OK')
+      const lines = tsv.split('\n');
+      console.log(lines)
+      const headers = lines.slice(0, 1)[0].split('\t');
+      return lines.slice(1, lines.length).map(line => {
+        const data = line.split('\t');
+        return headers.reduce((obj, nextKey, index) => {
+          obj[nextKey] = data[index];
+          return obj;
+        }, {});
+      });
+
+    },
+    report_tsv() {
+      console.log(this.tsvdata)
+      this.tsv_res = this.tsvJSON(this.tsvdata)
+      console.log(this.tsv_res)
     },
   },
 
