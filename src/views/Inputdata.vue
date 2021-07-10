@@ -39,7 +39,7 @@ export default {
     report_tsv() {
       console.log(this.tsvdata)
       this.tsv_res = this.tsvJSON(this.tsvdata)
-      console.log(this.tsv_res)
+      alert(JSON.stringify(this.tsv_res))
     },
   },
 
