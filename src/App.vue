@@ -108,6 +108,7 @@ export default {
 /////////////////
   mounted() {
     this.get_picker_range()
+    this.alertdate()
   },
   beforeMount() {
     this.token = this.$cookie.get('token')
@@ -115,7 +116,7 @@ export default {
       this.token = null
     }
 
-    this.alertdate()
+
 
     console.log('token', this.token)
     if (this.token) {

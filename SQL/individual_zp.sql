@@ -38,9 +38,9 @@ BEGIN
         and period_month = _month
         into _ndfl;
     --_report_date = requiredate(params, 'report_date');
-    _user_id = get_user(_token);
+    _user_id = get_user(_token); --ОБЯЗАТЕЛЬНАЯ СТРОКА
     --------------------------------------------------------------------------------------------------------
-    SELECT json_agg(a)
+    SELECT to_json(a)
     INTO _response
     FROM (
              select round((_actual_ktu*100)::NUMERIC,2) as ktu,u.id,

@@ -19,68 +19,68 @@
       >
         <v-card>
           <v-card-title
-              v-if="this.user_data.length">
-            {{ user_data[0].surname + " " + user_data[0].name}}
+              v-if="this.user_data">
+            {{ user_data.surname + " " + user_data.name}}
           </v-card-title>
           <v-card-title
-              v-if="!this.user_data.length">
+              v-if="!this.user_data">
             Данных нет
           </v-card-title>
           <v-card-text
-              v-if="this.user_data.length">
+              v-if="this.user_data">
             <v-simple-table dense>
               <tbody>
-              <tr v-if="user_data[0].month_ru">
+              <tr v-if="user_data.month_ru">
                 <td>Месяц</td>
-                <td>{{ user_data[0].month_ru}}</td>
+                <td>{{ user_data.month_ru}}</td>
               </tr>
-              <tr v-if="user_data[0].role">
+              <tr v-if="user_data.role">
                 <td>Роль</td>
-                <td>{{ user_data[0].role}}</td>
+                <td>{{ user_data.role}}</td>
               </tr>
-              <tr v-if="user_data[0].hours">
+              <tr v-if="user_data.hours">
                 <td>Часы</td>
-                <td>{{ user_data[0].hours}}</td>
+                <td>{{ user_data.hours}}</td>
               </tr>
-              <tr v-if="user_data[0].shifts">
+              <tr v-if="user_data.shifts">
                 <td>Смены</td>
-                <td>{{ user_data[0].shifts}}</td>
+                <td>{{ user_data.shifts}}</td>
               </tr>
-              <tr v-if="user_data[0].change">
+              <tr v-if="user_data.change">
                 <td>Замещения</td>
-                <td>{{ user_data[0].change}}</td>
+                <td>{{ user_data.change}}</td>
               </tr>
-              <tr v-if="user_data[0].ktu">
+              <tr v-if="user_data.ktu">
                 <td>КТУ</td>
-                <td>{{ user_data[0].ktu}}</td>
+                <td>{{ user_data.ktu}}</td>
               </tr>
-              <tr v-if="user_data[0].fine">
+              <tr v-if="user_data.fine">
                 <td>Штрафы</td>
-                <td>{{ user_data[0].fine}}</td>
+                <td>{{ user_data.fine}}</td>
               </tr>
-              <tr v-if="user_data[0].bonus">
+              <tr v-if="user_data.bonus">
                 <td>Поощрения</td>
-                <td>{{ user_data[0].bonus}}</td>
+                <td>{{ user_data.bonus}}</td>
               </tr>
-              <tr v-if="user_data[0].ndfl">
+              <tr v-if="user_data.ndfl">
                 <td>НДФЛ</td>
-                <td>{{ user_data[0].ndfl}}</td>
+                <td>{{ user_data.ndfl}}</td>
               </tr>
-              <tr v-if="user_data[0].aliments">
+              <tr v-if="user_data.aliments">
                 <td>Алименты</td>
-                <td>{{ user_data[0].aliments}}</td>
+                <td>{{ user_data.aliments}}</td>
               </tr>
-              <tr v-if="user_data[0].bank">
+              <tr v-if="user_data.bank">
                 <td>На карту</td>
-                <td>{{ user_data[0].bank }}</td>
+                <td>{{ user_data.bank }}</td>
               </tr>
-              <tr v-if="user_data[0].credit">
+              <tr v-if="user_data.credit">
                 <td>Авансы</td>
-                <td>{{ user_data[0].credit}}</td>
+                <td>{{ user_data.credit}}</td>
               </tr>
-              <tr v-if="user_data[0].extra">
+              <tr v-if="user_data.extra">
                 <td>Надбавки</td>
-                <td>{{ user_data[0].extra }}</td>
+                <td>{{ user_data.extra }}</td>
               </tr>
               </tbody>
             </v-simple-table>
