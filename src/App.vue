@@ -106,8 +106,11 @@ export default {
     }
   },
 /////////////////
-  mounted() {
+  created() {
     this.get_picker_range()
+  },
+  mounted() {
+
     this.alertdate()
   },
   beforeMount() {
@@ -116,7 +119,7 @@ export default {
       this.token = null
     }
 
-
+    this.alertdate()
 
     console.log('token', this.token)
     if (this.token) {
@@ -138,7 +141,7 @@ export default {
     },
     async get_picker_range(){
       this.picker_range = await this.$api.post('getpickerrange',{})
-      //console.log(this.picker_range)
+      console.log(this.picker_range)
     },
     alertdate(){
       this.month_date = this.picker.split('-')[1]

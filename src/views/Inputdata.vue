@@ -1,7 +1,11 @@
 <template>
   <v-container>
-    <v-textarea v-model="tsvdata" :value="tsvdata">
-
+    <v-textarea
+        clearable
+        dense
+        auto-grow
+        v-model="tsvdata"
+        :value="tsvdata">
     </v-textarea>
     <v-btn @click="report_tsv()">REPORT TSV</v-btn>
   </v-container>
@@ -19,6 +23,9 @@ export default {
 
   },
   beforeMount() {
+
+  },
+  created() {
 
   },
   methods: {
