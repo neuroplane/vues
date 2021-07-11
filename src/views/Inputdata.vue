@@ -3,6 +3,7 @@
     <h4 v-if="!function_name">ВВОД ДАННЫХ</h4>
     <h4 v-if="function_name_rus !=null">{{function_name_rus}}</h4>
     <v-textarea v-if="function_name"
+        outlined
         clearable
         dense
         auto-grow
@@ -10,10 +11,10 @@
         :value="tsvdata">
     </v-textarea>
     <v-btn block v-if="function_name !=null && tsvdata != null" @click="send_func(function_name)">ОТПРАВИТЬ</v-btn>
-    <v-btn block v-if="function_name && !tsvdata" @click="function_name = null; function_name_rus = null">НАЗАД</v-btn>
+    <v-btn block v-if="function_name !=null && tsvdata == null" @click="function_name = null; function_name_rus = null">НАЗАД</v-btn>
     <v-container v-if="!function_name" class="text-center">
       <div :key="button.functionname" class="text-center d-inline-block" v-for="button in buttons">
-        <v-btn small plain class="mx-1 my-2" @click="insert_func(button.functionname, button.rusname)">{{button.rusname}}</v-btn>
+        <v-btn plain class="mx-1 my-2" @click="insert_func(button.functionname, button.rusname)">{{button.rusname}}</v-btn>
       </div>
     </v-container>
   </v-container>
@@ -30,13 +31,13 @@ export default {
       function_name: null,
       function_name_rus: null,
       buttons: [
-        {functionname: 'ktu', rusname: "КТУ"},
-        {functionname: 'fines_bonuses', rusname: "ШИБ"},
-        {functionname: 'taxes', rusname: "НАЛОГИ"},
-        {functionname: 'credit', rusname: "АВАНСЫ"},
-        {functionname: 'extra', rusname: "НАДБАВКИ"},
+        {functionname: 'ktu', rusname: "КТУ*"},
+        {functionname: 'finesbonuses', rusname: "ШИБ*"},
+        {functionname: 'taxes', rusname: "НАЛОГИ*"},
+        {functionname: 'credit', rusname: "АВАНСЫ*"},
+        {functionname: 'extra', rusname: "НАДБАВКИ*"},
         {functionname: 'constants', rusname: "КОНСТАНТЫ"},
-        {functionname: 'workinghours', rusname: "ТАБЕЛЬ"}
+        {functionname: 'workhours', rusname: "ТАБЕЛЬ*"}
       ],
     }
   },
@@ -56,7 +57,7 @@ export default {
       return lines.slice(1, lines.length).map(line => {
         const data = line.split('\t');
         return headers.reduce((obj, nextKey, index) => {
-          obj[nextKey] = data[index];
+          obj[nextKey] = data[index] == "" ? null : data[index];
           return obj;
         }, {});
       });
@@ -68,12 +69,15 @@ export default {
     },
     async send_func(func){
       this.tsv_res = this.tsvJSON(this.tsvdata)
-      if (this.tsv_res.length == 0){
+      console.log(this.tsv_res.length)
+      if (this.tsv_res.length < 1){
         alert("ОШИБКА: ПУСТЫЕ ДАННЫЕ")
       } else {
-        await this.$api.post(func,{
+        //await this.$api.post('input_' + func,{
+        await this.$api.post('input'+func,{
           items: this.tsv_res
         })
+        console.log('FUNCTION: ' + func)
         this.tsvdata = null
         this.tsv_res = null
         this.function_name = null
