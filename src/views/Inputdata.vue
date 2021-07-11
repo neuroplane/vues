@@ -9,7 +9,7 @@
         v-model="tsvdata"
         :value="tsvdata">
     </v-textarea>
-    <v-btn block v-if="function_name !=null && tsvdata != null" @click="send_func(function_name); function_name = null; function_name_rus = null">ОТПРАВИТЬ</v-btn>
+    <v-btn block v-if="function_name !=null && tsvdata != null" @click="send_func(function_name)">ОТПРАВИТЬ</v-btn>
     <v-btn block v-if="function_name && !tsvdata" @click="function_name = null; function_name_rus = null">НАЗАД</v-btn>
     <v-container v-if="!function_name" class="text-center">
       <div :key="button.functionname" class="text-center d-inline-block" v-for="button in buttons">
@@ -51,9 +51,7 @@ export default {
   },
   methods: {
     tsvJSON(tsv) {
-      console.log('OK')
       const lines = tsv.split('\n');
-      console.log(lines)
       const headers = lines.slice(0, 1)[0].split('\t');
       return lines.slice(1, lines.length).map(line => {
         const data = line.split('\t');
@@ -62,12 +60,6 @@ export default {
           return obj;
         }, {});
       });
-
-    },
-    report_tsv() {
-      //console.log(this.tsvdata)
-      this.tsv_res = this.tsvJSON(this.tsvdata)
-      //alert(JSON.stringify(this.tsv_res))
     },
     insert_func(fname, fnameru){
       this.function_name = fname
@@ -75,13 +67,19 @@ export default {
       console.log(fnameru)
     },
     async send_func(func){
-      await this.$api.post(func,{
-        items: this.tsv_res
-      })
-      this.tsvdata = null
-      this.tsv_res = null
-      this.function_name = null
-      this.function_name_rus = null
+      this.tsv_res = this.tsvJSON(this.tsvdata)
+      if (this.tsv_res.length == 0){
+        alert("ОШИБКА: ПУСТЫЕ ДАННЫЕ")
+      } else {
+        await this.$api.post(func,{
+          items: this.tsv_res
+        })
+        this.tsvdata = null
+        this.tsv_res = null
+        this.function_name = null
+        this.function_name_rus = null
+      }
+
     },
   },
 

@@ -107,10 +107,10 @@ export default {
   },
 /////////////////
   created() {
-    this.get_picker_range()
+
   },
   mounted() {
-
+    this.get_picker_range()
     this.alertdate()
   },
   beforeMount() {
