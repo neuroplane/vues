@@ -37,6 +37,7 @@ export default {
         {functionname: 'credit', rusname: "АВАНСЫ*"},
         {functionname: 'extra', rusname: "НАДБАВКИ*"},
         {functionname: 'constants', rusname: "КОНСТАНТЫ"},
+        {functionname: 'salary', rusname: "ОКЛАДЫ*"},
         {functionname: 'workhours', rusname: "ТАБЕЛЬ*"}
       ],
     }
