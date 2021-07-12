@@ -36,9 +36,8 @@
               locale="ru"
               @change="alertdate"
               color="blue"
-              :min="picker_range.first_month"
-              :max="picker_range.last_month"
-              :show-current="picker_range.last_month"
+              min="2021-4"
+              max="2021-6"
               no-title
           ></v-date-picker>
         </v-list-item>
@@ -102,12 +101,15 @@ export default {
       year_date: null,
       day_date: 1,
       date_to_convert: null,
-      picker_range: []
+      picker_range: [],
+      month_now: null,
+      year_now: null,
+      date_now: null
     }
   },
 /////////////////
   created() {
-
+    this.pickerset()
   },
   mounted() {
     this.get_picker_range()
@@ -128,6 +130,14 @@ export default {
   },
 ////////////////////// Доделать сраную дату в пикере!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   methods: {
+    pickerset(){
+      var datenow = new Date()
+      var month_now = datenow.getMonth()
+      var year_now = datenow.getFullYear()
+      this.month_now = month_now
+      this.year_now = year_now
+      this.date_now = datenow
+    },
     tsvJSON(tsv) {
       const lines = tsv.split('\n');
       const headers = lines.slice(0, 1)[0].split('\t');

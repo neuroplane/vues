@@ -24,11 +24,12 @@ BEGIN
     select exists( select period_month from fines_bonuses where period_month = _month and period_year = _year) into _fines_bonuses;
     select exists( select period_month from taxes where period_month = _month and period_year = _year) into _taxes;
     select exists( select period_month from work_hours where period_month = _month and period_year = _year) into _work_hours;
+    select exists( select period_month from salary where period_month = _month and period_year = _year) into _work_hours;
 
 
 
     SELECT to_json(a) INTO _response FROM (
-        SELECT _constants, _credit, _extra, _ktu, _fines_bonuses, _taxes, _work_hours
+        SELECT _constants as Константы, _credit as Авансы, _extra as Надбавки, _ktu as КТУ, _fines_bonuses as ШиБ, _taxes as Налоги, _work_hours as Табель
     ) AS  a;
     RETURN coalesce(_response,'[]');
 END
