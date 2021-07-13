@@ -27,4 +27,4 @@ $$ LANGUAGE 'plpgsql';
 
 alter function neurotlg.teletest(json,uuid) owner to neuroplane;
 
-select neurotlg.teletest('{"items":"hello"}'::JSON, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
+select neurotlg.teletest('{"inputbool":true,"inputdate":"2021-05-30","inputint":55,"inputtimestamp":"2021-05-13T11:40:00","items":"text"}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
