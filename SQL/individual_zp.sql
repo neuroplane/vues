@@ -29,14 +29,7 @@ BEGIN
     _ktu_month_lines = (SELECT SUM(c_amount) from public.ktu k where k.period_month = _month and k.period_year = _year);
     _ktu_month_documents = (SELECT SUM(c_documents) from public.ktu k where k.period_month = _month and k.period_year = _year);
 
-    select k.m_cash + k.m_bank + k.mir_cash + k.mir_bank + k.sad_cash + k.sad_bank as f from constants k where period_year = 2021 AND period_month = 5;
-    select get_role(_selected_user,_month,_year) INTO _selected_role
-    SELECT
-        CASE
-            WHEN _selected_role IN ('склад') THEN 'СКЛАД'
-            WHEN _selected_role IN ('адм. бонус', 'посменная') THEN 'АДМ'
-            ELSE 'остальные'
-        END AS heshe;
+
 
     select k.c_sum/_ktu_month_sum + k.c_documents/_ktu_month_documents from ktu k
         where k.user_id = _selected_user
@@ -56,6 +49,7 @@ BEGIN
     INTO _response
     FROM (
              select m.month_ru,
+                    get_fot_type(_selected_user, _month, _year) as fot,
                     cnst.work_hours as month_standard,
                     wh.hours,
                     s.amount as salary,
@@ -103,4 +97,4 @@ $$;
 
 alter function individualzp(json, uuid) owner to neuroplane;
 
-select public.individualzp('{"month":"05","selected_user":41,"year":"2021"}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
+select public.individualzp('{"month":"05","selected_user":60,"year":"2021"}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
