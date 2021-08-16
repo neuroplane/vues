@@ -1,5 +1,4 @@
-DROP FUNCTION IF EXISTS individualzp(JSON, UUID);
-create function individualzp(params json, _token uuid) returns json
+create or replace function individualzp(params json, _token uuid) returns json
     language plpgsql
 as
 $$
@@ -32,16 +31,16 @@ BEGIN
 
 
     select k.c_sum/_ktu_month_sum + k.c_documents/_ktu_month_documents from ktu k
-        where k.user_id = _selected_user
-        and k.period_year = _year
-         and k.period_month = _month
-        into _actual_ktu;
+    where k.user_id = _selected_user
+      and k.period_year = _year
+      and k.period_month = _month
+    into _actual_ktu;
 
     SELECT ndfl from taxes
-        where user_id = _selected_user
-        and period_year = _year
-        and period_month = _month
-        into _ndfl;
+    where user_id = _selected_user
+      and period_year = _year
+      and period_month = _month
+    into _ndfl;
     --_report_date = requiredate(params, 'report_date');
     _user_id = get_user(_token); --ОБЯЗАТЕЛЬНАЯ СТРОКА
     --------------------------------------------------------------------------------------------------------
@@ -70,7 +69,7 @@ BEGIN
                     r.role_id_ru,
                     wh.period_year,
                     ex.amount as extra
-             --(SELECT round((k.c_sum/_ktu_month_sum*100)::NUMERIC,2)) as ktu_sum,
+                    --(SELECT round((k.c_sum/_ktu_month_sum*100)::NUMERIC,2)) as ktu_sum,
              from work_hours wh
                       left join users u on wh.user_id = u.id
 
@@ -84,12 +83,12 @@ BEGIN
                       left join job_status js on u.id = js.user_id
                       left join constants cnst using (period_year, period_month)
                       left join salary s on u.id = s.user_id
-             left join months m on wh.period_month = m.month_id
+                      left join months m on wh.period_month = m.month_id
              where u.id = _selected_user
                and wh.period_month = _month
                and wh.period_year = _year
-               -- and js.start_date > _report_date
-    ) AS a;
+             -- and js.start_date > _report_date
+         ) AS a;
     --------------------------------------------------------------------------------------------------------
     RETURN coalesce(_response,'[]');
 END
@@ -97,4 +96,3 @@ $$;
 
 alter function individualzp(json, uuid) owner to neuroplane;
 
-select public.individualzp('{"month":"05","selected_user":60,"year":"2021"}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
