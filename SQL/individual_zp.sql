@@ -1,5 +1,4 @@
-DROP FUNCTION IF EXISTS individualzp(JSON, UUID);
-create function individualzp(params json, _token uuid) returns json
+create or replace function individualzp(params json, _token uuid) returns json
     language plpgsql
 as
 $$
@@ -29,26 +28,19 @@ BEGIN
     _ktu_month_lines = (SELECT SUM(c_amount) from public.ktu k where k.period_month = _month and k.period_year = _year);
     _ktu_month_documents = (SELECT SUM(c_documents) from public.ktu k where k.period_month = _month and k.period_year = _year);
 
-    select k.m_cash + k.m_bank + k.mir_cash + k.mir_bank + k.sad_cash + k.sad_bank as f from constants k where period_year = 2021 AND period_month = 5;
-    select get_role(_selected_user,_month,_year) INTO _selected_role
-    SELECT
-        CASE
-            WHEN _selected_role IN ('склад') THEN 'СКЛАД'
-            WHEN _selected_role IN ('адм. бонус', 'посменная') THEN 'АДМ'
-            ELSE 'остальные'
-        END AS heshe;
+
 
     select k.c_sum/_ktu_month_sum + k.c_documents/_ktu_month_documents from ktu k
-        where k.user_id = _selected_user
-        and k.period_year = _year
-         and k.period_month = _month
-        into _actual_ktu;
+    where k.user_id = _selected_user
+      and k.period_year = _year
+      and k.period_month = _month
+    into _actual_ktu;
 
     SELECT ndfl from taxes
-        where user_id = _selected_user
-        and period_year = _year
-        and period_month = _month
-        into _ndfl;
+    where user_id = _selected_user
+      and period_year = _year
+      and period_month = _month
+    into _ndfl;
     --_report_date = requiredate(params, 'report_date');
     _user_id = get_user(_token); --ОБЯЗАТЕЛЬНАЯ СТРОКА
     --------------------------------------------------------------------------------------------------------
@@ -56,6 +48,7 @@ BEGIN
     INTO _response
     FROM (
              select m.month_ru,
+                    get_fot_type(_selected_user, _month, _year) as fot,
                     cnst.work_hours as month_standard,
                     wh.hours,
                     s.amount as salary,
@@ -76,7 +69,7 @@ BEGIN
                     r.role_id_ru,
                     wh.period_year,
                     ex.amount as extra
-             --(SELECT round((k.c_sum/_ktu_month_sum*100)::NUMERIC,2)) as ktu_sum,
+                    --(SELECT round((k.c_sum/_ktu_month_sum*100)::NUMERIC,2)) as ktu_sum,
              from work_hours wh
                       left join users u on wh.user_id = u.id
 
@@ -90,12 +83,12 @@ BEGIN
                       left join job_status js on u.id = js.user_id
                       left join constants cnst using (period_year, period_month)
                       left join salary s on u.id = s.user_id
-             left join months m on wh.period_month = m.month_id
+                      left join months m on wh.period_month = m.month_id
              where u.id = _selected_user
                and wh.period_month = _month
                and wh.period_year = _year
-               -- and js.start_date > _report_date
-    ) AS a;
+             -- and js.start_date > _report_date
+         ) AS a;
     --------------------------------------------------------------------------------------------------------
     RETURN coalesce(_response,'[]');
 END
@@ -103,4 +96,3 @@ $$;
 
 alter function individualzp(json, uuid) owner to neuroplane;
 
-select public.individualzp('{"month":"05","selected_user":41,"year":"2021"}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
