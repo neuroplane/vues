@@ -38,9 +38,21 @@
                 <td>Роль</td>
                 <td>{{ user_data.role}}</td>
               </tr>
+              <tr v-if="user_data.month_standard">
+                <td>Норма часов</td>
+                <td>{{ user_data.month_standard}}</td>
+              </tr>
+              <tr v-if="user_data.salary">
+                <td>Оклад</td>
+                <td>{{ user_data.salary}}</td>
+              </tr>
               <tr v-if="user_data.hours">
                 <td>Часы</td>
                 <td>{{ user_data.hours}}</td>
+              </tr>
+              <tr v-if="user_data.nachisleno">
+                <td>Начислено</td>
+                <td>{{ user_data.nachisleno}}</td>
               </tr>
               <tr v-if="user_data.shifts">
                 <td>Смены</td>

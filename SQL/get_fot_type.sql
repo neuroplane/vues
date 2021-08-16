@@ -22,3 +22,4 @@ $$;
 
 alter function get_fot_type(integer, integer, integer) owner to neuroplane;
 
+select public.individualzp('{"month":"06","report_date":"2021-6-1","selected_user":60,"year":"2021"}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
