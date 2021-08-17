@@ -54,6 +54,10 @@
                 <td>Начислено</td>
                 <td>{{ user_data.nachisleno}}</td>
               </tr>
+              <tr v-if="user_data.accrualbonus">
+                <td>Бонус</td>
+                <td>{{ user_data.accrualbonus}}</td>
+              </tr>
               <tr v-if="user_data.shifts">
                 <td>Смены</td>
                 <td>{{ user_data.shifts}}</td>

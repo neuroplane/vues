@@ -48,7 +48,7 @@ BEGIN
     INTO _response
     FROM (
              select m.month_ru,
-                    get_fot_type(_selected_user, _month, _year) as fot,
+                    compute_bonus(_selected_user, _month, _year) as accrualbonus,
                     cnst.work_hours as month_standard,
                     wh.hours,
                     s.amount as salary,
@@ -72,7 +72,6 @@ BEGIN
                     --(SELECT round((k.c_sum/_ktu_month_sum*100)::NUMERIC,2)) as ktu_sum,
              from work_hours wh
                       left join users u on wh.user_id = u.id
-
                       left join credit c using (period_year, period_month, user_id)
                       left join taxes t using (period_year, period_month, user_id)
                       left join fines_bonuses fb using (period_year, period_month, user_id)
