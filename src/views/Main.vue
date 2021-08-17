@@ -14,6 +14,7 @@
     </v-data-table>
     <div class="text-center">
       <v-dialog
+          v-if="this.user_data && this.user_data.surname"
           v-model="zp_dialog"
           width="500"
       >
