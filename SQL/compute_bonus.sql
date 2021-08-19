@@ -5,7 +5,17 @@ as
 $$
 DECLARE
     _fot float;
+    _ktu float;
+    _ktu_month_sum float;
+    _ktu_month_amount float;
+    _ktu_month_lines float;
+    _ktu_month_documents float;
+    _actual_ktu float;
 BEGIN
+    _ktu_month_sum = (SELECT SUM(c_sum) from public.ktu k where k.period_month = _month and k.period_year = _year);
+    _ktu_month_amount = (SELECT SUM(c_amount) from public.ktu k where k.period_month = _month and k.period_year = _year);
+    _ktu_month_lines = (SELECT SUM(c_amount) from public.ktu k where k.period_month = _month and k.period_year = _year);
+    _ktu_month_documents = (SELECT SUM(c_documents) from public.ktu k where k.period_month = _month and k.period_year = _year);
     SELECT INTO _fot CASE
                          WHEN (SELECT get_role(_user_id, _month, _year)) IN ('warehouse')
                              THEN (SELECT round((
@@ -39,6 +49,11 @@ BEGIN
                                                                and s.role = 'warehouse'
                                                                and u.id = 12))::numeric, 0))
 
+                         WHEN (SELECT get_role(_user_id, _month, _year)) IN ('consultant')
+                             THEN (select k.c_sum/_ktu_month_sum + k.c_documents/_ktu_month_documents from ktu k
+                                   where k.user_id = _user_id
+                                     and k.period_year = _year
+                                     and k.period_month = _month)
                          WHEN (SELECT get_role(_user_id, _month, _year)) IN ('адм. бонус', 'посменная')
                              THEN (select k.m_cash + k.m_bank + k.sad_cash + k.sad_bank
                                    from constants k
