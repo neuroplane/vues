@@ -1,5 +1,5 @@
--- auto-generated definition
-create or replace function compute_bonus(_user_id integer, _month integer, _year integer) returns integer
+DROP FUNCTION IF EXISTS compute_bonus(_user_id integer, _month integer, _year integer);
+create or replace function compute_bonus(_user_id integer, _month integer, _year integer) returns float
     language plpgsql
 as
 $$
@@ -20,8 +20,7 @@ BEGIN
                          WHEN (SELECT get_role(_user_id, _month, _year)) IN ('warehouse')
                              THEN (SELECT round((
                                                             (select round(
-                                                                                    (select (k.m_cash + k.m_bank + k.mir_cash + k.mir_bank + k.sad_cash + k.sad_bank)) *
-                                                                                    k.sklad_share / 100 / 100)
+                                                            (select (k.m_cash + k.m_bank + k.mir_cash + k.mir_bank + k.sad_cash + k.sad_bank)) * k.sklad_share / 100 / 100)
                                                              from constants k
                                                              where period_year = _year
                                                                AND period_month = _month) /
@@ -67,4 +66,4 @@ $$;
 
 alter function compute_bonus(_user_id integer, _month integer, _year integer) owner to neuroplane;
 
-select public.compute_bonus(12, 06, 2021);
+select public.compute_bonus(3, 5, 2021);

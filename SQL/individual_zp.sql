@@ -95,4 +95,4 @@ $$;
 
 alter function individualzp(json, uuid) owner to neuroplane;
 
-select public.individualzp('{"month":"05","report_date":"2021-5-1","selected_user":78,"year":"2021"}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
+select public.individualzp('{"month":"05","report_date":"2021-5-1","selected_user":3,"year":"2021"}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
