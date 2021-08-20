@@ -24,3 +24,55 @@ select round(sum((m_cash + m_bank)*m_share/10000)::numeric,0) as m_fot,
 select rh.role, rh.role_start_date, js.start_date from role_history rh
                                                            join job_status js on rh.user_id = js.user_id
 where rh.user_id = 54 and rh.role_start_date<'2010-01-01' order by role_start_date
+
+select SUM(amount), period_month, period_year from salary where role = 'warehouse' group by period_month, period_year order by period_month, period_year;
+
+-- Здесь я получаю сумму начислений по окладу для склада +
+select sum(round((w.hours/c.work_hours*s.amount)::numeric, 0))
+from salary s
+         join work_hours w on s.user_id = w.user_id and w.period_month = s.period_month and w.period_year = s.period_year
+         join constants c on s.period_month = c.period_month and s.period_year = c.period_year
+         join users u on s.user_id = u.id
+where s.period_month = 6 and s.period_year = 2021 and s.role = 'warehouse';
+
+--Здесь получена доля ФОТ склада
+select round(((select (k.m_cash + k.m_bank + k.mir_cash + k.mir_bank + k.sad_cash + k.sad_bank))*k.sklad_share/100/100)::numeric,0)
+from constants k where period_year = 2021 AND period_month = 04;
+
+-- Здесь я получаю начисление конкретного сотрудникак склада для формулы =(Доля ФОТ)/(Сумма начислений)*(начисления)
+select round((w.hours/c.work_hours*s.amount)::numeric, 0)
+from salary s
+         join work_hours w on s.user_id = w.user_id and w.period_month = s.period_month and w.period_year = s.period_year
+         join constants c on s.period_month = c.period_month and s.period_year = c.period_year
+         join users u on s.user_id = u.id
+where s.period_month = 4 and s.period_year = 2021 and s.role = 'warehouse' and u.id = 12;
+
+--СВОДНАЯ ФОРМУЛА БОНУСОВ
+SELECT round((
+                         (select round(
+                                                 (select (k.m_cash + k.m_bank + k.mir_cash + k.mir_bank + k.sad_cash + k.sad_bank)) *
+                                                 k.sklad_share / 100 / 100)
+                          from constants k
+                          where period_year = 2021
+                            AND period_month = 06) /
+                         (select sum(round((w.hours / c.work_hours * s.amount)::numeric, 0))
+                          from salary s
+                                   join work_hours w on s.user_id = w.user_id
+                              and w.period_month = s.period_month
+                              and w.period_year = s.period_year
+                                   join constants c on s.period_month = c.period_month and s.period_year = c.period_year
+                                   join users u on s.user_id = u.id
+                          where s.period_month = 6
+                            and s.period_year = 2021
+                            and s.role = 'warehouse') *
+                         (select round((w.hours / c.work_hours * s.amount)::numeric, 0)
+                          from salary s
+                                   join work_hours w on s.user_id = w.user_id
+                              and w.period_month = s.period_month
+                              and w.period_year = s.period_year
+                                   join constants c on s.period_month = c.period_month and s.period_year = c.period_year
+                                   join users u on s.user_id = u.id
+                          where s.period_month = 6
+                            and s.period_year = 2021
+                            and s.role = 'warehouse'
+                            and u.id = 12))::numeric,0);
