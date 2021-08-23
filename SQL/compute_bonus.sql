@@ -67,8 +67,26 @@ BEGIN
                                      AND k.period_year = _year
                                      AND k.period_month = _month)
 -- DJP
-                         WHEN (SELECT get_role(_user_id, _month, _year)) IN ('assembler')
-                             THEN (SELECT 0)
+                         WHEN (SELECT get_role(_user_id, _month, _year)) IN ('fixed_salary')
+                             THEN (SELECT 123)
+                         WHEN (SELECT get_role(_user_id, _month, _year)) IN ('hour_salary')
+                             THEN (SELECT 123)
+                         WHEN (SELECT get_role(_user_id, _month, _year)) IN ('adm_bonus')
+                             THEN (SELECT 123)
+                         WHEN (SELECT get_role(_user_id, _month, _year)) IN ('security')
+                             THEN (SELECT 123)
+                         WHEN (SELECT get_role(_user_id, _month, _year)) IN ('manager')
+                             THEN (SELECT 123)
+                         WHEN (SELECT get_role(_user_id, _month, _year)) IN ('cashier')
+                             THEN (SELECT 123)
+                         WHEN (SELECT get_role(_user_id, _month, _year)) IN ('shift_salary')
+                             THEN (SELECT 123)
+                         WHEN (SELECT get_role(_user_id, _month, _year)) IN ('countless')
+                             THEN (SELECT 123)
+                         WHEN (SELECT get_role(_user_id, _month, _year)) IN ('mir')
+                             THEN (SELECT 123)
+                         WHEN (SELECT get_role(_user_id, _month, _year)) IN ('regenbogen')
+                             THEN (SELECT 123)
                          ELSE (SELECT 0)
                          END;
     RETURN _fot;
