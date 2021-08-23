@@ -4,12 +4,10 @@ CREATE OR REPLACE FUNCTION compute_bonus(_user_id INTEGER, _month INTEGER, _year
 AS $$
 DECLARE
     _fot                 FLOAT;
-    _ktu                 FLOAT;
     _ktu_month_sum       FLOAT;
     _ktu_month_amount    FLOAT;
     _ktu_month_lines     FLOAT;
     _ktu_month_documents FLOAT;
-    _actual_ktu          FLOAT;
 BEGIN
     _ktu_month_sum = (SELECT SUM(c_sum) FROM public.ktu k WHERE k.period_month = _month AND k.period_year = _year);
     _ktu_month_amount = (SELECT SUM(c_amount) FROM public.ktu k WHERE k.period_month = _month AND k.period_year = _year);
@@ -90,7 +88,7 @@ BEGIN
                          ELSE (SELECT 0)
                          END;
     RETURN _fot;
-END;
+END
 $$;
 
 ALTER FUNCTION compute_bonus(_user_id INTEGER, _month INTEGER, _year INTEGER) OWNER TO neuroplane;
