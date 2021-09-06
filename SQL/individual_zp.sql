@@ -47,7 +47,9 @@ BEGIN
     SELECT to_json(a)
     INTO _response
     FROM (
-             select m.month_ru,
+             select
+            -- НАЧИСЛЕНИЯ
+                    m.month_ru,
                     compute_bonus(_selected_user, _month, _year) as accrualbonus,
                     cnst.work_hours as month_standard,
                     wh.hours,
@@ -57,10 +59,11 @@ BEGIN
                     u.id,
                     u.surname,
                     u.name,
+            --ВЫЧЕТЫ
                     get_role(_selected_user, _month, _year) as role,
                     c.amount as credit,
                     shifts,
-                    change,
+                    ROUND(compute_bonus(_selected_user, _month, _year)/wh.hours*wh.change*1.2)::int as change,
                     fb.fine,
                     bonus,
                     t.ndfl,
@@ -95,4 +98,4 @@ $$;
 
 alter function individualzp(json, uuid) owner to neuroplane;
 
-select public.individualzp('{"month":"05","report_date":"2021-5-1","selected_user":3,"year":"2021"}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
+select public.individualzp('{"month":"05","report_date":"2021-5-1","selected_user":36,"year":"2021"}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);

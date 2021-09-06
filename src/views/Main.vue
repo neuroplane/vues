@@ -47,6 +47,21 @@
                 <td>Оклад</td>
                 <td>{{ user_data.salary}}</td>
               </tr>
+              <tr v-if="user_data.extra">
+                <td>Надбавки</td>
+                <td>{{ user_data.extra }}</td>
+              </tr>
+              <tr>
+                <td colspan="2" style="background-color: darkgreen">Начисления</td>
+              </tr>
+              <tr v-if="user_data.ktu">
+                <td>КТУ</td>
+                <td>{{ user_data.ktu}}</td>
+              </tr>
+
+
+
+
               <tr v-if="user_data.hours">
                 <td>Часы</td>
                 <td>{{ user_data.hours}}</td>
@@ -67,18 +82,17 @@
                 <td>Замещения</td>
                 <td>{{ user_data.change}}</td>
               </tr>
-              <tr v-if="user_data.ktu">
-                <td>КТУ</td>
-                <td>{{ user_data.ktu}}</td>
-              </tr>
-              <tr v-if="user_data.fine">
-                <td>Штрафы</td>
-                <td>{{ user_data.fine}}</td>
-              </tr>
               <tr v-if="user_data.bonus">
                 <td>Поощрения</td>
                 <td>{{ user_data.bonus}}</td>
               </tr>
+              <tr><td colspan="2" style="background-color: #3d0007">Списания</td></tr>
+
+              <tr v-if="user_data.fine">
+                <td>Штрафы</td>
+                <td>{{ user_data.fine}}</td>
+              </tr>
+
               <tr v-if="user_data.ndfl">
                 <td>НДФЛ</td>
                 <td>{{ user_data.ndfl}}</td>
@@ -95,10 +109,7 @@
                 <td>Авансы</td>
                 <td>{{ user_data.credit}}</td>
               </tr>
-              <tr v-if="user_data.extra">
-                <td>Надбавки</td>
-                <td>{{ user_data.extra }}</td>
-              </tr>
+
               </tbody>
             </v-simple-table>
           </v-card-text>
