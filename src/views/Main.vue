@@ -1,6 +1,7 @@
 <template>
   <v-container class="col-xl-8 offset-xl-2">
-    <v-text-field class="mb-5"
+    <v-text-field v-if="this.workingUsers.length"
+                  class="mb-5"
         v-model="search"
         append-icon="mdi-magnify"
         label="Поиск"
@@ -13,7 +14,7 @@
     <v-data-table
         :headers="headers"
         :items="workingUsers"
-        :items-per-page="15"
+        :items-per-page="17"
         :search="search"
 
         hide-default-header
@@ -25,7 +26,7 @@
         :footer-props="{
           itemsPerPageAllText: '',
           itemsPerPageText: '',
-          itemsPerPageOptions: [15],
+          itemsPerPageOptions: [17],
           showCurrentPage: true
         }"
     >

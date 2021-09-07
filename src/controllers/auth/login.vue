@@ -1,11 +1,11 @@
 <template>
     <v-container class="col-sm-4 offset-sm-4 col-md-2 offset-md-5 col-lg-2 offset-lg-5">
       <v-form>
-        <v-text-field dense prepend-inner-icon="mdi-account" outlined type="text" placeholder="логин" v-model="login"></v-text-field>
-        <v-text-field dense prepend-inner-icon="mdi-lock" outlined @keyup.enter="doLogin()" type="password" placeholder="пароль" v-model="password"></v-text-field>
+        <v-text-field dark dense prepend-inner-icon="mdi-account" outlined type="text" placeholder="логин" v-model="login"></v-text-field>
+        <v-text-field dark dense prepend-inner-icon="mdi-lock" outlined @keyup.enter="doLogin()" type="password" placeholder="пароль" v-model="password"></v-text-field>
         <v-btn block @click="doLogin()" variant="primary" class="btn btn-sm btn-primary btn-block">Вход</v-btn>
-        <v-alert variant="danger" v-if="alert" show>
-          <small>{{this.alertmessage}}</small>
+        <v-alert class="mt-5" type="error" v-if="alert" show dense>
+          <small style="font-family: monospace">{{this.alertmessage}}</small>
         </v-alert>
       </v-form>
     </v-container>
