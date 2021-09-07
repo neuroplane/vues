@@ -27,7 +27,7 @@
               v-if="this.user_data">
             {{ user_data.surname + " " + user_data.name}}
           </v-card-title>
-          <v-card-subtitle>{{ user_data.role_id_ru}}, {{user_data.month_ru_small}}</v-card-subtitle>
+          <v-card-subtitle>{{ user_data.role_id_ru}}, {{user_data.month_ru_small}}, {{user_data.period_year}}</v-card-subtitle>
           <v-card-title
               v-if="!this.user_data">
             Данных нет
@@ -37,12 +37,12 @@
             <v-simple-table style="font-family: monospace; font-size: 10px" class="my-3"  dense>
               <tbody>
               <tr v-if="user_data.month_standard">
-                <td>Норма часов</td>
-                <td>{{ user_data.hours}} / {{ user_data.month_standard}}</td>
+                <td style="width: 60%">Норма часов</td>
+                <td style="text-align: right">{{ user_data.hours}} / {{ user_data.month_standard}}</td>
               </tr>
               <tr v-if="user_data.salary">
                 <td>Оклад</td>
-                <td>{{ user_data.salary}}</td>
+                <td style="text-align: right">{{ user_data.salary}}</td>
               </tr>
 
               </tbody>
@@ -52,39 +52,39 @@
 
               <tr v-if="user_data.ktu">
                 <td style="width: 60%">КТУ</td>
-                <td>{{ user_data.ktu}}</td>
+                <td style="text-align: right">{{ user_data.ktu}}</td>
               </tr>
               <tr v-if="user_data.nachisleno">
                 <td>Начислено</td>
-                <td>{{ user_data.nachisleno}}</td>
+                <td style="text-align: right">{{ user_data.nachisleno}}</td>
               </tr>
               <tr v-if="user_data.accrualbonus">
                 <td>Бонус</td>
-                <td>{{ user_data.accrualbonus}}</td>
+                <td style="text-align: right">{{ user_data.accrualbonus}}</td>
               </tr>
               <tr v-if="user_data.shifts">
                 <td>Смены</td>
-                <td>{{ user_data.shifts}}</td>
+                <td style="text-align: right">{{ user_data.shifts}}</td>
               </tr>
               <tr v-if="user_data.change">
                 <td>Замещения</td>
-                <td>{{ user_data.change}}</td>
+                <td style="text-align: right">{{ user_data.change}}</td>
               </tr>
               <tr v-if="user_data.bonus">
                 <td>Поощрения</td>
-                <td>{{ user_data.bonus}}</td>
+                <td style="text-align: right">{{ user_data.bonus}}</td>
               </tr>
               <tr v-if="user_data.correction">
                 <td>Коррекция</td>
-                <td>{{ user_data.correction }}</td>
+                <td style="text-align: right">{{ user_data.correction }}</td>
               </tr>
               <tr v-if="user_data.dop">
                 <td>Доп</td>
-                <td>{{ user_data.dop }}</td>
+                <td style="text-align: right">{{ user_data.dop }}</td>
               </tr>
               <tr>
-                <td>ИТОГО</td>
-                <td >{{user_data.nachisleno + user_data.change + user_data.correction + user_data.dop + user_data.accrualbonus + user_data.bonus}}</td>
+                <td style="width: 60%">ИТОГО</td>
+                <td style="text-align: right">{{user_data.nachisleno + user_data.change + user_data.correction + user_data.dop + user_data.accrualbonus + user_data.bonus}}</td>
               </tr>
               </tbody>
             </v-simple-table>
@@ -94,28 +94,28 @@
 
               <tr v-if="user_data.fine">
                 <td>Штрафы</td>
-                <td>{{ user_data.fine}}</td>
+                <td style="text-align: right">{{ user_data.fine}}</td>
               </tr>
 
               <tr v-if="user_data.ndfl">
                 <td>НДФЛ</td>
-                <td>{{ user_data.ndfl}}</td>
+                <td style="text-align: right">{{ user_data.ndfl}}</td>
               </tr>
               <tr v-if="user_data.aliments">
                 <td>Алименты</td>
-                <td>{{ user_data.aliments}}</td>
+                <td style="text-align: right">{{ user_data.aliments}}</td>
               </tr>
               <tr v-if="user_data.bank">
                 <td>На карту</td>
-                <td>{{ user_data.bank }}</td>
+                <td style="text-align: right">{{ user_data.bank }}</td>
               </tr>
               <tr>
-                <td>Налоги итого</td>
-                <td>{{user_data.taxes}}</td>
+                <td style="width: 60%">Налоги итого</td>
+                <td style="text-align: right">{{user_data.taxes}}</td>
               </tr>
               <tr v-if="user_data.credit">
                 <td>Авансы</td>
-                <td>{{ user_data.credit}}</td>
+                <td style="text-align: right">{{ user_data.credit}}</td>
               </tr>
 
               </tbody>
