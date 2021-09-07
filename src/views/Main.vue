@@ -34,7 +34,7 @@
           </v-card-title>
           <v-card-text
               v-if="this.user_data">
-            <v-simple-table style="font-family: monospace; font-size: 10px" class="my-3"  dense>
+            <v-simple-table style="font-family: monospace; font-size: 10px" class="mb-5"  dense>
               <tbody>
               <tr v-if="user_data.month_standard">
                 <td style="width: 60%">Норма часов</td>
@@ -47,7 +47,7 @@
 
               </tbody>
             </v-simple-table>
-            <v-simple-table style="font-family: monospace; font-size: 10px" class="my-3"  dense>
+            <v-simple-table style="font-family: monospace; font-size: 10px" class="my-5"  dense>
               <tbody>
 
               <tr v-if="user_data.ktu">
@@ -89,7 +89,7 @@
               </tbody>
             </v-simple-table>
             <!-------------->
-            <v-simple-table style="font-family: monospace; font-size: 10px" class="my-3"  dense>
+            <v-simple-table style="font-family: monospace; font-size: 10px" class="mt-5"  dense>
               <tbody>
 
               <tr v-if="user_data.fine">
