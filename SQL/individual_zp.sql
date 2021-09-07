@@ -49,13 +49,17 @@ BEGIN
     FROM (
              select
             -- НАЧИСЛЕНИЯ
-                    m.month_ru,
-                    compute_bonus(_selected_user, _month, _year) as accrualbonus,
+                    m.month_ru_small,
+                    ex.dop_amount as dop,
+                    ex.amount as correction,
+                    compute_bonus(_selected_user, _month, _year) as accrualbonus, --БОНУС
                     cnst.work_hours as month_standard,
                     wh.hours,
                     s.amount as salary,
-                    (select ROUND((wh.hours/cnst.work_hours*s.amount)::NUMERIC,2)) as nachisleno, --НАЧИСЛЕНО
+                    (select ROUND((wh.hours/cnst.work_hours*s.amount)::NUMERIC,2))::int as nachisleno, --НАЧИСЛЕНО
                     round((_actual_ktu*100)::NUMERIC,2) as ktu,
+                    ROUND(compute_bonus(_selected_user, _month, _year)/wh.hours*wh.change*1.2)::int as change, --ЗАМЕЩЕНИЯ
+                    bonus, --ПООЩРЕНИЯ
                     u.id,
                     u.surname,
                     u.name,
@@ -63,15 +67,18 @@ BEGIN
                     get_role(_selected_user, _month, _year) as role,
                     c.amount as credit,
                     shifts,
-                    ROUND(compute_bonus(_selected_user, _month, _year)/wh.hours*wh.change*1.2)::int as change,
+
                     fb.fine,
-                    bonus,
+
                     t.ndfl,
+                    coalesce(t.ndfl,0) + coalesce(t.bank,0) + coalesce(t.aliments, 0) as taxes,
                     aliments,
                     bank,
                     r.role_id_ru,
                     wh.period_year,
-                    ex.amount as extra
+
+
+                    cnst.meals
                     --(SELECT round((k.c_sum/_ktu_month_sum*100)::NUMERIC,2)) as ktu_sum,
              from work_hours wh
                       left join users u on wh.user_id = u.id

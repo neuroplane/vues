@@ -3,7 +3,9 @@
     <v-data-table
         :headers="headers"
         :items="workingUsers"
-        :items-per-page="15"
+        :items-per-page="100"
+        hide-default-footer
+        hide-default-header
         class="elevation-1"
         dense
         mobile-breakpoint="300"
@@ -17,54 +19,40 @@
           v-if="this.user_data && this.user_data.surname"
           v-model="zp_dialog"
           width="500"
+          overlay-opacity="0.95"
+          overlay-color="#111111"
       >
         <v-card>
           <v-card-title
               v-if="this.user_data">
             {{ user_data.surname + " " + user_data.name}}
           </v-card-title>
+          <v-card-subtitle>{{ user_data.role_id_ru}}, {{user_data.month_ru_small}}</v-card-subtitle>
           <v-card-title
               v-if="!this.user_data">
             Данных нет
           </v-card-title>
           <v-card-text
               v-if="this.user_data">
-            <v-simple-table dense>
+            <v-simple-table style="font-family: monospace; font-size: 10px" class="my-3"  dense>
               <tbody>
-              <tr v-if="user_data.month_ru">
-                <td>Месяц</td>
-                <td>{{ user_data.month_ru}}</td>
-              </tr>
-              <tr v-if="user_data.role">
-                <td>Роль</td>
-                <td>{{ user_data.role}}</td>
-              </tr>
               <tr v-if="user_data.month_standard">
                 <td>Норма часов</td>
-                <td>{{ user_data.month_standard}}</td>
+                <td>{{ user_data.hours}} / {{ user_data.month_standard}}</td>
               </tr>
               <tr v-if="user_data.salary">
                 <td>Оклад</td>
                 <td>{{ user_data.salary}}</td>
               </tr>
-              <tr v-if="user_data.extra">
-                <td>Надбавки</td>
-                <td>{{ user_data.extra }}</td>
-              </tr>
-              <tr>
-                <td colspan="2" style="background-color: darkgreen">Начисления</td>
-              </tr>
+
+              </tbody>
+            </v-simple-table>
+            <v-simple-table style="font-family: monospace; font-size: 10px" class="my-3"  dense>
+              <tbody>
+
               <tr v-if="user_data.ktu">
-                <td>КТУ</td>
+                <td style="width: 60%">КТУ</td>
                 <td>{{ user_data.ktu}}</td>
-              </tr>
-
-
-
-
-              <tr v-if="user_data.hours">
-                <td>Часы</td>
-                <td>{{ user_data.hours}}</td>
               </tr>
               <tr v-if="user_data.nachisleno">
                 <td>Начислено</td>
@@ -86,7 +74,23 @@
                 <td>Поощрения</td>
                 <td>{{ user_data.bonus}}</td>
               </tr>
-              <tr><td colspan="2" style="background-color: #3d0007">Списания</td></tr>
+              <tr v-if="user_data.correction">
+                <td>Коррекция</td>
+                <td>{{ user_data.correction }}</td>
+              </tr>
+              <tr v-if="user_data.dop">
+                <td>Доп</td>
+                <td>{{ user_data.dop }}</td>
+              </tr>
+              <tr>
+                <td>ИТОГО</td>
+                <td >{{user_data.nachisleno + user_data.change + user_data.correction + user_data.dop + user_data.accrualbonus + user_data.bonus}}</td>
+              </tr>
+              </tbody>
+            </v-simple-table>
+            <!-------------->
+            <v-simple-table style="font-family: monospace; font-size: 10px" class="my-3"  dense>
+              <tbody>
 
               <tr v-if="user_data.fine">
                 <td>Штрафы</td>
@@ -104,6 +108,10 @@
               <tr v-if="user_data.bank">
                 <td>На карту</td>
                 <td>{{ user_data.bank }}</td>
+              </tr>
+              <tr>
+                <td>Налоги итого</td>
+                <td>{{user_data.taxes}}</td>
               </tr>
               <tr v-if="user_data.credit">
                 <td>Авансы</td>
