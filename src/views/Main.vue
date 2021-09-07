@@ -1,16 +1,33 @@
 <template>
   <v-container class="col-xl-8 offset-xl-2">
+    <v-text-field class="mb-5"
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Поиск"
+        single-line
+        hide-details
+                  dense
+                  clearable
+
+    ></v-text-field>
     <v-data-table
         :headers="headers"
         :items="workingUsers"
-        :items-per-page="100"
-        hide-default-footer
+        :items-per-page="15"
+        :search="search"
+
         hide-default-header
         class="elevation-1"
         dense
         mobile-breakpoint="300"
         v-if="this.workingUsers.length"
         @click:row="row_click"
+        :footer-props="{
+          itemsPerPageAllText: '',
+          itemsPerPageText: '',
+          itemsPerPageOptions: [15],
+          showCurrentPage: true
+        }"
     >
 
     </v-data-table>
@@ -151,6 +168,7 @@ export default {
       zp_dialog: false,
       user_data: [],
       workingUsers: [],
+      search: '',
       headers: [
         { text: 'Сотрудник', value: 'fio' },
         //{ text: 'С', value: 'ktu_sum' },
