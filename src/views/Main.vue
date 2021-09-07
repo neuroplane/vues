@@ -7,8 +7,8 @@
         label="Поиск"
         single-line
         hide-details
-                  dense
-                  clearable
+        dense
+        clearable
 
     ></v-text-field>
     <v-data-table
