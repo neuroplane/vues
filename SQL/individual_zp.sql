@@ -28,8 +28,6 @@ BEGIN
     _ktu_month_lines = (SELECT SUM(c_amount) from public.ktu k where k.period_month = _month and k.period_year = _year);
     _ktu_month_documents = (SELECT SUM(c_documents) from public.ktu k where k.period_month = _month and k.period_year = _year);
 
-
-
     select k.c_sum/_ktu_month_sum + k.c_documents/_ktu_month_documents from ktu k
     where k.user_id = _selected_user
       and k.period_year = _year
@@ -43,15 +41,15 @@ BEGIN
     into _ndfl;
     --_report_date = requiredate(params, 'report_date');
     _user_id = get_user(_token); --ОБЯЗАТЕЛЬНАЯ СТРОКА
-    --------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
     SELECT to_json(a)
     INTO _response
     FROM (
              select
             -- НАЧИСЛЕНИЯ
                     m.month_ru_small,
-                    ex.dop_amount as dop,
-                    ex.amount as correction,
+                    coalesce(ex.dop_amount,0) as dop, --ДОП
+                    coalesce(ex.amount,0) as correction, -- КОРРЕКЦИЯ
                     compute_bonus(_selected_user, _month, _year) as accrualbonus, --БОНУС
                     cnst.work_hours as month_standard,
                     wh.hours,
@@ -65,20 +63,18 @@ BEGIN
                     u.name,
             --ВЫЧЕТЫ
                     get_role(_selected_user, _month, _year) as role,
-                    c.amount as credit,
+                    c.amount as credit, --АВАНСЫ
                     shifts,
-
-                    fb.fine,
-
-                    t.ndfl,
-                    coalesce(t.ndfl,0) + coalesce(t.bank,0) + coalesce(t.aliments, 0) as taxes,
-                    aliments,
-                    bank,
+                    fb.fine, --ШТРАФЫ
+                    t.ndfl, --НДФЛ
+                    coalesce(t.ndfl,0) + coalesce(t.bank,0) + coalesce(t.aliments, 0) as taxes, -- ИТОГО НАЛОГИ
+                    aliments, --АЛИМЕНТЫ
+                    bank, -- НА КАРТУ
                     r.role_id_ru,
                     wh.period_year,
+                    cnst.meals, --ОБЕДЫ
+                    sh.elektrika as shortage --НЕДОСТАЧА
 
-
-                    cnst.meals
                     --(SELECT round((k.c_sum/_ktu_month_sum*100)::NUMERIC,2)) as ktu_sum,
              from work_hours wh
                       left join users u on wh.user_id = u.id
@@ -90,8 +86,10 @@ BEGIN
                       left join role_history rh on u.id = rh.user_id
                       left join roles r on rh.role = r.role_id
                       left join job_status js on u.id = js.user_id
+                      left join shortage sh using (period_year, period_month)
                       left join constants cnst using (period_year, period_month)
                       left join salary s on u.id = s.user_id
+
                       left join months m on wh.period_month = m.month_id
              where u.id = _selected_user
                and wh.period_month = _month
@@ -105,4 +103,4 @@ $$;
 
 alter function individualzp(json, uuid) owner to neuroplane;
 
-select public.individualzp('{"month":"05","report_date":"2021-5-1","selected_user":36,"year":"2021"}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
+select public.individualzp('{"month":"05","report_date":"2021-5-1","selected_user":74,"year":"2021"}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);

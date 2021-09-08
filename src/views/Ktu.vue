@@ -1,331 +1,277 @@
 <template>
+  <v-container class="col-xl-8 offset-xl-2">
+    <h6>TEST DATA TABLE</h6>
+    <v-text-field v-if="this.workingUsers.length"
+                  class="mb-5"
+                  v-model="search"
+                  append-icon="mdi-magnify"
+                  label="Поиск"
+                  single-line
+                  hide-details
+                  dense
+                  clearable
+
+    ></v-text-field>
     <v-data-table
         :headers="headers"
-        :items="desserts"
-        sort-by="calories"
+        :items="workingUsers"
+        :items-per-page="17"
+        :search="search"
+
+        hide-default-header
         class="elevation-1"
+        dense
+        mobile-breakpoint="300"
+        v-if="this.workingUsers.length"
+        @click:row="row_click"
+        :footer-props="{
+          itemsPerPageAllText: '',
+          itemsPerPageText: '',
+          itemsPerPageOptions: [17],
+          showCurrentPage: true
+        }"
     >
-      <template v-slot:top>
-        <v-toolbar
-            flat
-        >
-          <v-toolbar-title>My CRUD</v-toolbar-title>
-          <v-divider
-              class="mx-4"
-              inset
-              vertical
-          ></v-divider>
-          <v-spacer></v-spacer>
-          <v-dialog
-              v-model="dialog"
-              max-width="500px"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                  color="primary"
-                  dark
-                  class="mb-2"
-                  v-bind="attrs"
-                  v-on="on"
-              >
-                New Item
-              </v-btn>
-            </template>
-            <v-card>
-              <v-card-title>
-                <span class="headline">{{ formTitle }}</span>
-              </v-card-title>
 
-              <v-card-text>
-                <v-container>
-                  <v-row>
-                    <v-col
-                        cols="12"
-                        sm="6"
-                        md="4"
-                    >
-                      <v-text-field
-                          v-model="editedItem.name"
-                          label="Dessert name"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col
-                        cols="12"
-                        sm="6"
-                        md="4"
-                    >
-                      <v-text-field
-                          v-model="editedItem.calories"
-                          label="Calories"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col
-                        cols="12"
-                        sm="6"
-                        md="4"
-                    >
-                      <v-text-field
-                          v-model="editedItem.fat"
-                          label="Fat (g)"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col
-                        cols="12"
-                        sm="6"
-                        md="4"
-                    >
-                      <v-text-field
-                          v-model="editedItem.carbs"
-                          label="Carbs (g)"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col
-                        cols="12"
-                        sm="6"
-                        md="4"
-                    >
-                      <v-text-field
-                          v-model="editedItem.protein"
-                          label="Protein (g)"
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card-text>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                    color="blue darken-1"
-                    text
-                    @click="close"
-                >
-                  Cancel
-                </v-btn>
-                <v-btn
-                    color="blue darken-1"
-                    text
-                    @click="save"
-                >
-                  Save
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-          <v-dialog v-model="dialogDelete" max-width="500px">
-            <v-card>
-              <v-card-title class="headline">Are you sure you want to delete this item?</v-card-title>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-                <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
-                <v-spacer></v-spacer>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-toolbar>
-      </template>
-      <template v-slot:item.actions="{ item }">
-        <v-icon
-            small
-            class="mr-2"
-            @click="editItem(item)"
-        >
-          mdi-pencil
-        </v-icon>
-        <v-icon
-            small
-            @click="deleteItem(item)"
-        >
-          mdi-delete
-        </v-icon>
-      </template>
-      <template v-slot:no-data>
-        <v-btn
-            color="primary"
-            @click="initialize"
-        >
-          Reset
-        </v-btn>
-      </template>
     </v-data-table>
+    <div class="text-center">
+      <v-dialog
+        v-model="editZpDialog"
+        width="90%"
+        overlay-opacity="0.95"
+        overlay-color="#111111"
+      >
+        <v-card>
+          <v-card-title>
+            Редактирования
+          </v-card-title>
+          <v-form>
+            <v-container>
+              <v-row>
+                <v-col
+                    cols="4"
+                    xs="2"
+                    sm="2"
+                    md="2"
+                >
+                  <v-text-field
+                      v-model="user_data.dop"
+                      label="Дополнительно"
+                  ></v-text-field>
+                </v-col>
+                <v-col
+                    cols="4"
+                    xs="2"
+                    sm="2"
+                    md="2"
+                >
+                  <v-text-field
+                      v-model="user_data.correction"
+                      label="Коррекция"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-form>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                  color="warning"
+                  text
+                  @click="editZpDialog = false"
+              >
+                Отменить
+              </v-btn>
+              <v-divider></v-divider>
+              <v-btn color="success" text @click="editZpDialog = false">
+                Записать
+              </v-btn>
+            </v-card-actions>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-dialog
+          v-if="this.user_data && this.user_data.surname"
+          v-model="zp_dialog"
+          width="500"
+          overlay-opacity="0.95"
+          overlay-color="#111111"
+      >
+        <v-card>
+          <v-card-title
+              v-if="this.user_data">
+            {{ user_data.surname + " " + user_data.name}}
+          </v-card-title>
+          <v-card-subtitle>{{ user_data.role_id_ru}}, {{user_data.month_ru_small}}, {{user_data.period_year}}</v-card-subtitle>
+          <v-card-title
+              v-if="!this.user_data">
+            Данных нет
+          </v-card-title>
+          <v-card-text
+              v-if="this.user_data">
+            <v-simple-table style="font-family: monospace; font-size: 10px" class="mb-5"  dense>
+              <tbody>
+              <tr v-if="user_data.month_standard">
+                <td style="width: 60%">Норма часов</td>
+                <td style="text-align: right">{{ user_data.hours}} / {{ user_data.month_standard}}</td>
+              </tr>
+              <tr v-if="user_data.salary">
+                <td>Оклад</td>
+                <td style="text-align: right">{{ user_data.salary}}</td>
+              </tr>
+
+              </tbody>
+            </v-simple-table>
+            <v-simple-table style="font-family: monospace; font-size: 10px" class="my-5"  dense>
+              <tbody>
+
+              <tr v-if="user_data.ktu">
+                <td style="width: 60%">КТУ</td>
+                <td style="text-align: right">{{ user_data.ktu}}</td>
+              </tr>
+              <tr v-if="user_data.nachisleno">
+                <td>Начислено</td>
+                <td style="text-align: right">{{ user_data.nachisleno}}</td>
+              </tr>
+              <tr v-if="user_data.accrualbonus">
+                <td>Бонус</td>
+                <td style="text-align: right">{{ user_data.accrualbonus}}</td>
+              </tr>
+              <tr v-if="user_data.shifts">
+                <td>Смены</td>
+                <td style="text-align: right">{{ user_data.shifts}}</td>
+              </tr>
+              <tr v-if="user_data.change">
+                <td>Замещения</td>
+                <td style="text-align: right">{{ user_data.change}}</td>
+              </tr>
+              <tr v-if="user_data.bonus">
+                <td>Поощрения</td>
+                <td style="text-align: right">{{ user_data.bonus}}</td>
+              </tr>
+              <tr v-if="user_data.correction">
+                <td>Коррекция</td>
+                <td style="text-align: right">{{ user_data.correction }}</td>
+              </tr>
+              <tr v-if="user_data.dop">
+                <td>Доп</td>
+                <td style="text-align: right">
+                  {{ user_data.dop }}
+                </td>
+              </tr>
+              <tr>
+                <td style="width: 60%">ИТОГО</td>
+                <td style="text-align: right">{{+user_data.nachisleno + user_data.change + +user_data.correction + +user_data.dop + user_data.accrualbonus + user_data.bonus}}</td>
+              </tr>
+              </tbody>
+            </v-simple-table>
+            <!-------------->
+            <v-simple-table style="font-family: monospace; font-size: 10px" class="mt-5"  dense>
+              <tbody>
+
+              <tr v-if="user_data.fine">
+                <td>Штрафы</td>
+                <td style="text-align: right">{{ user_data.fine}}</td>
+              </tr>
+
+              <tr v-if="user_data.ndfl">
+                <td>НДФЛ</td>
+                <td style="text-align: right">{{ user_data.ndfl}}</td>
+              </tr>
+              <tr v-if="user_data.aliments">
+                <td>Алименты</td>
+                <td style="text-align: right">{{ user_data.aliments}}</td>
+              </tr>
+              <tr v-if="user_data.bank">
+                <td>На карту</td>
+                <td style="text-align: right">{{ user_data.bank }}</td>
+              </tr>
+              <tr>
+                <td style="width: 60%">Налоги итого</td>
+                <td style="text-align: right">{{user_data.taxes}}</td>
+              </tr>
+              <tr v-if="user_data.credit">
+                <td>Авансы</td>
+                <td style="text-align: right">{{ user_data.credit}}</td>
+              </tr>
+              <tr>
+                <td>ИТОГО</td>
+                <td style="text-align: right">{{user_data.fine + user_data.credit + user_data.aliments + user_data.ndfl + user_data.bank}}</td>
+              </tr>
+
+              </tbody>
+            </v-simple-table>
+          </v-card-text>
+
+
+          <v-divider></v-divider>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+                color="primary"
+                text
+                @click="zp_dialog = false
+                user_data = []"
+            >
+              Закрыть
+            </v-btn>
+            <v-btn color="success" text @click="editZpDialog = true">
+              Редактировать
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+    <!------->
+  </v-container>
 </template>
 
 <script>
 export default {
-  data: () => ({
-    dialog: false,
-    dialogDelete: false,
-    headers: [
-      {
-        text: 'Dessert (100g serving)',
-        align: 'start',
-        sortable: false,
-        value: 'name',
-      },
-      { text: 'Calories', value: 'calories' },
-      { text: 'Fat (g)', value: 'fat' },
-      { text: 'Carbs (g)', value: 'carbs' },
-      { text: 'Protein (g)', value: 'protein' },
-      { text: 'Actions', value: 'actions', sortable: false },
-    ],
-    desserts: [],
-    editedIndex: -1,
-    editedItem: {
-      name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
-    },
-    defaultItem: {
-      name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
-    },
-  }),
-
-  computed: {
-    formTitle () {
-      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-    },
-  },
-
-  watch: {
-    dialog (val) {
-      val || this.close()
-    },
-    dialogDelete (val) {
-      val || this.closeDelete()
-    },
-  },
-
-  created () {
-    this.initialize()
-  },
-
-  methods: {
-    initialize () {
-      this.desserts = [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-        },
-        {
-          name: 'Cupcake',
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-        },
-        {
-          name: 'Gingerbread',
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-        },
-        {
-          name: 'Honeycomb',
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-        },
-        {
-          name: 'Donut',
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-        },
+  name: "Main.vue",
+  data() {
+    return {
+      zp_dialog: false,
+      editZpDialog: false,
+      user_data: [],
+      workingUsers: [],
+      search: '',
+      headers: [
+        { text: 'Сотрудник', value: 'fio' },
+        //{ text: 'С', value: 'ktu_sum' },
+        //{ text: 'Ш', value: 'ktu_amount' },
+        //{ text: 'Стр', value: 'ktu_lines' },
+        //{ text: 'Ч', value: 'ktu_documents' }
       ]
-    },
-
-    editItem (item) {
-      this.editedIndex = this.desserts.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialog = true
-    },
-
-    deleteItem (item) {
-      this.editedIndex = this.desserts.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialogDelete = true
-    },
-
-    deleteItemConfirm () {
-      this.desserts.splice(this.editedIndex, 1)
-      this.closeDelete()
-    },
-
-    close () {
-      this.dialog = false
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
-    },
-
-    closeDelete () {
-      this.dialogDelete = false
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
-    },
-
-    save () {
-      if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem)
-      } else {
-        this.desserts.push(this.editedItem)
-      }
-      this.close()
-    },
+    }
   },
-name: "Ktu.vue"
+  methods: {
+    async get_individual_data(selected_user){
+      this.user_data = await this.$api.post('individualzp',{
+        "report_date" : this.$storage.state.report_date,
+        "month": this.$storage.state.month_date,
+        "year" : this.$storage.state.year_date,
+        "selected_user" : selected_user
+      })
+      console.log(this.user_data)
+    },
+    row_click(item){
+      this.zp_dialog = true
+      this.get_individual_data(item.id)
+      //alert(item.fio + " " + item.birthday)
+    },
+    async get_ktu() {
+      this.workingUsers = await this.$api.post('getworkingusers',{"report_date" : this.$storage.state.report_date})
+      console.log(this.workingUsers)
+    }
+  },
+  beforeMount(){
+    this.get_ktu()
+  },
 }
+
 </script>
 
 <style scoped>
