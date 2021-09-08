@@ -46,25 +46,30 @@
           </v-card-title>
           <v-form>
             <v-container>
-              <v-row>
+              <v-row
+                  justify="space-around"
+                  align="center"
+              >
                 <v-col
-                    cols="4"
-                    xs="2"
-                    sm="2"
-                    md="2"
+                    cols="6"
+                    xs="6"
+                    sm="6"
+                    md="6"
                 >
                   <v-text-field
+                      clearable
                       v-model="user_data.dop"
                       label="Дополнительно"
                   ></v-text-field>
                 </v-col>
                 <v-col
-                    cols="4"
-                    xs="2"
-                    sm="2"
-                    md="2"
+                    cols="6"
+                    xs="6"
+                    sm="6"
+                    md="6"
                 >
                   <v-text-field
+                      clearable
                       v-model="user_data.correction"
                       label="Коррекция"
                   ></v-text-field>
@@ -74,8 +79,10 @@
           </v-form>
           <v-divider></v-divider>
           <v-card-actions>
-            <v-card-actions>
-              <v-spacer></v-spacer>
+            <v-btn color="success" text @click="editZpDialog = false">
+              Записать
+            </v-btn>
+            <v-spacer></v-spacer>
               <v-btn
                   color="warning"
                   text
@@ -83,11 +90,6 @@
               >
                 Отменить
               </v-btn>
-              <v-divider></v-divider>
-              <v-btn color="success" text @click="editZpDialog = false">
-                Записать
-              </v-btn>
-            </v-card-actions>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -208,6 +210,11 @@
           <v-divider></v-divider>
 
           <v-card-actions>
+
+
+            <v-btn color="success" text @click="editZpDialog = true">
+              Редактировать
+            </v-btn>
             <v-spacer></v-spacer>
             <v-btn
                 color="primary"
@@ -216,9 +223,6 @@
                 user_data = []"
             >
               Закрыть
-            </v-btn>
-            <v-btn color="success" text @click="editZpDialog = true">
-              Редактировать
             </v-btn>
           </v-card-actions>
         </v-card>
