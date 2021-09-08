@@ -36,6 +36,7 @@
               type="month"
               full-width
               locale="ru"
+              @change="alertdate"
               color="blue"
               min="2021-4"
               max="2021-6"
@@ -111,11 +112,11 @@ export default {
   },
 /////////////////
   created() {
-
+    this.pickerset()
   },
   mounted() {
-
-
+    this.get_picker_range()
+    this.alertdate()
   },
   beforeMount() {
     this.token = this.$cookie.get('token')
@@ -123,7 +124,7 @@ export default {
       this.token = null
     }
 
-    //this.alertdate()
+    this.alertdate()
 
     console.log('token', this.token)
     if (this.token) {
