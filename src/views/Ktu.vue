@@ -45,7 +45,7 @@
       >
         <v-card outlined>
           <v-card-title>
-            Редактирование
+            Редактирования
           </v-card-title>
           <v-form>
             <v-container>
