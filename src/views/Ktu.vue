@@ -42,7 +42,7 @@
       >
         <v-card>
           <v-card-title>
-            Редактирования
+            Редактирование
           </v-card-title>
           <v-form>
             <v-container>
