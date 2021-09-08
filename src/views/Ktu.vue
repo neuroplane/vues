@@ -12,6 +12,9 @@
                   clearable
 
     ></v-text-field>
+    <v-alert v-if="!this.workingUsers.length">
+      OOPS!
+    </v-alert>
     <v-data-table
         :headers="headers"
         :items="workingUsers"
@@ -40,7 +43,7 @@
         overlay-opacity="0.95"
         overlay-color="#111111"
       >
-        <v-card>
+        <v-card outlined>
           <v-card-title>
             Редактирование
           </v-card-title>
@@ -96,23 +99,18 @@
       <v-dialog
           v-if="this.user_data && this.user_data.surname"
           v-model="zp_dialog"
-          width="500"
           overlay-opacity="0.95"
           overlay-color="#111111"
       >
-        <v-card>
+        <v-card tile outlined>
           <v-card-title
               v-if="this.user_data">
             {{ user_data.surname + " " + user_data.name}}
           </v-card-title>
           <v-card-subtitle>{{ user_data.role_id_ru}}, {{user_data.month_ru_small}}, {{user_data.period_year}}</v-card-subtitle>
-          <v-card-title
-              v-if="!this.user_data">
-            Данных нет
-          </v-card-title>
           <v-card-text
               v-if="this.user_data">
-            <v-simple-table style="font-family: monospace; font-size: 10px" class="mb-5"  dense>
+            <v-simple-table style="font-family: monospace; font-size: 10px" class="mb-5" dense>
               <tbody>
               <tr v-if="user_data.month_standard">
                 <td style="width: 60%">Норма часов</td>
@@ -267,7 +265,7 @@ export default {
       //alert(item.fio + " " + item.birthday)
     },
     async get_ktu() {
-      this.workingUsers = await this.$api.post('getworkingusers',{"report_date" : this.$storage.state.report_date})
+      this.workingUsers = await this.$api.post('getworkingusers',{"report_date" : this.$storage.state.report_date, "year": this.$storage.state.year_date, "month": this.$storage.state.month_date})
       console.log(this.workingUsers)
     }
   },

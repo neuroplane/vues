@@ -201,7 +201,7 @@ export default {
       //alert(item.fio + " " + item.birthday)
     },
     async get_ktu() {
-      this.workingUsers = await this.$api.post('getworkingusers',{"report_date" : this.$storage.state.report_date})
+      this.workingUsers = await this.$api.post('getworkingusers',{"report_date" : this.$storage.state.report_date, "year": this.$storage.state.year_date, "month": this.$storage.state.month_date})
       console.log(this.workingUsers)
     }
   },

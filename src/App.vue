@@ -29,7 +29,9 @@
         </v-list-item>
         </v-list-group>
         <v-list-item>
-          <v-date-picker class="mt-5"
+          <v-date-picker
+              picker-date="2021-5"
+              class="mt-5"
               v-model="picker"
               type="month"
               full-width
@@ -39,6 +41,7 @@
               min="2021-4"
               max="2021-6"
               no-title
+              show-current="2021-05"
           ></v-date-picker>
         </v-list-item>
       </v-list>
@@ -76,7 +79,7 @@ export default {
     return {
       done: [false, false, false],
       mouseMonth: null,
-      picker: new Date().toISOString().substr(0, 10),
+      picker: "2021-05",
       items: [
         //{ title: 'Home', icon: 'mdi-home', url: 'home' },
         { title: 'Основная', icon: 'mdi-credit-card-outline', url: 'main' },
@@ -130,14 +133,7 @@ export default {
   },
 ////////////////////// Доделать сраную дату в пикере!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   methods: {
-    pickerset(){
-      var datenow = new Date()
-      var month_now = datenow.getMonth()
-      var year_now = datenow.getFullYear()
-      this.month_now = month_now
-      this.year_now = year_now
-      this.date_now = datenow
-    },
+
     tsvJSON(tsv) {
       const lines = tsv.split('\n');
       const headers = lines.slice(0, 1)[0].split('\t');
@@ -153,7 +149,7 @@ export default {
       this.picker_range = await this.$api.post('getpickerrange',{})
       console.log(this.picker_range)
     },
-    alertdate(){
+    alfertdate(){
       this.month_date = this.picker.split('-')[1]
       this.year_date = this.picker.split('-')[0]
       this.actualdate = new Date(this.picker.split('-')[0], this.picker.split('-')[1],1);
