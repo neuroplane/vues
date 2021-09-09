@@ -64,7 +64,7 @@
     </v-navigation-drawer>
     <v-app-bar v-if="user" dense app>
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-      <v-app-bar-title>{{ this.$storage.state.calMonth }}.{{this.$storage.state.calYear}}</v-app-bar-title>
+      <v-app-bar-title>{{ this.cal_month }}.{{this.cal_year}}</v-app-bar-title>
       <v-spacer></v-spacer>
       <v-btn small plain @click="doLogout">
         <v-icon>mdi-exit-to-app</v-icon>
@@ -147,7 +147,8 @@ export default {
     this.pickerset()
   },
   mounted() {
-    this.alertdate()
+    this.getClosestDate()
+    //this.alertdate()
 
   },
   beforeMount() {
@@ -162,18 +163,20 @@ export default {
     if (this.token) {
       this.getUser()
     }
-    this.getClosestDate()
+
   },
 ////////////////////// Доделать сраную дату в пикере!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   methods: {
     monthset(monthnum){
       this.monthnum = monthnum
       this.$storage.set('calMonth', monthnum)
+      this.cal_month = this.$storage.state.calMonth
       console.log(this.monthnum)
     },
     yearset(yearnum){
       this.yearnum = yearnum
       this.$storage.set('calYear', yearnum)
+      this.cal_year = this.$storage.state.calYear
       console.log(this.yearnum)
     },
     pickerset(){
@@ -204,6 +207,7 @@ export default {
       this.$storage.set('calYear', this.cal_obj.closest_year)
       this.$storage.set('calMonth', this.cal_obj.closest_month)
       this.cal_year = this.cal_obj.closest_year
+      this.cal_month = this.cal_obj.closest_month
       console.log(this.cal_year)
     },
     alertdate(){
