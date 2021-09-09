@@ -1,6 +1,7 @@
 <template>
   <v-container class="col-xl-8 offset-xl-2">
     <h6>TEST DATA TABLE</h6>
+    <v-btn v-if="!this.workingUsers.length">RELOAD</v-btn>
     <v-text-field v-if="this.workingUsers.length"
                   class="mb-5"
                   v-model="search"
@@ -265,14 +266,17 @@ export default {
       this.get_individual_data(item.id)
       //alert(item.fio + " " + item.birthday)
     },
-    async get_ktu() {
+    async get_working_users() {
       console.log('get_ktu func from Ktu')
       this.workingUsers = await this.$api.post('getworkingusers',{"report_date" : "2021-05-01", "year": this.$storage.state.calYear, "month": this.$storage.state.calMonth})
       console.log(this.workingUsers)
     }
   },
+  mounted() {
+    this.get_working_users()
+    },
   beforeMount(){
-    this.get_ktu()
+
   },
 }
 

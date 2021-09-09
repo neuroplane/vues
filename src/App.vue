@@ -28,7 +28,8 @@
           </v-list-item-content>
         </v-list-item>
         </v-list-group>
-        <v-list-item>
+
+        <v-list-item class="mt-3">
           <v-col
 
           >
@@ -147,7 +148,7 @@ export default {
   },
   mounted() {
     this.alertdate()
-    this.getClosestDate()
+
   },
   beforeMount() {
     this.token = this.$cookie.get('token')
@@ -161,6 +162,7 @@ export default {
     if (this.token) {
       this.getUser()
     }
+    this.getClosestDate()
   },
 ////////////////////// Доделать сраную дату в пикере!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   methods: {
