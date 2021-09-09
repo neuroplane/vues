@@ -29,52 +29,36 @@
         </v-list-item>
         </v-list-group>
         <v-list-item>
-          <v-date-picker class="mt-5"
-              v-model="picker"
-              type="month"
-              full-width
-              locale="ru"
-              @change="alertdate"
-              color="blue"
-              min="2021-4"
-              max="2021-6"
-              no-title
-          ></v-date-picker>
+          <v-col
+
+          >
+            <v-btn
+                tile
+                min-width="33%"
+                max-width="33%"
+                plain
+                class="font-weight-light"
+                :key="button.monthnum"
+                v-for="button in months"
+                @click="monthset(button.monthnum)"
+            >{{button.monthname}}</v-btn>
+          </v-col>
         </v-list-item>
-        <v-list-group
-            prepend-icon="mdi-calendar"
-            >
-          <template v-slot:activator>
-            <v-list-item-title>Месяца</v-list-item-title>
-          </template>
-          <v-list-item v-for="item in months">
-            <v-list-item-content>
-              <v-list-item-title
-                @click="monthset(item.monthnum)"
-              >
-                {{item.monthname}}
-              </v-list-item-title>
-            </v-list-item-content>
+        <v-list-item>
+          <v-col
 
-          </v-list-item>
-        </v-list-group>
-        <v-list-group
-            prepend-icon="mdi-calendar"
-            >
-          <template v-slot:activator>
-            <v-list-item-title>Годы</v-list-item-title>
-          </template>
-          <v-list-item v-for="year in years">
-            <v-list-item-content>
-              <v-list-item-title
-                  @click="yearset(year.yearnum)"
-              >
-                {{year.yearname}}
-              </v-list-item-title>
-            </v-list-item-content>
-
-          </v-list-item>
-        </v-list-group>
+          >
+            <v-btn
+                min-width="50%"
+                max-width="50%"
+                class="font-weight-light"
+                plain
+                :key="button.yearnum"
+                v-for="button in years"
+                @click="yearset(button.yearnum)"
+            >{{button.yearnum}}</v-btn>
+          </v-col>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar v-if="user" dense app>
@@ -108,7 +92,20 @@ export default {
   data() {
 
     return {
-      months: [{'monthname':'Январь', 'monthnum':1}, {'monthname':'Февраль','monthnum':2}],
+      months: [
+          {'monthname':'ЯНВ', 'monthnum':1},
+          {'monthname':'ФЕВ','monthnum':2},
+          {'monthname':'МАР', 'monthnum':3},
+          {'monthname':'АПР', 'monthnum':4},
+          {'monthname':'МАЙ', 'monthnum':5},
+          {'monthname':'ИЮН', 'monthnum':6},
+          {'monthname':'ИЮЛ', 'monthnum':7},
+          {'monthname':'АВГ', 'monthnum':8},
+          {'monthname':'СЕН', 'monthnum':9},
+          {'monthname':'ОКТ', 'monthnum':10},
+          {'monthname':'НОЯ', 'monthnum':11},
+          {'monthname':'ДЕК', 'monthnum':12}
+      ],
       years: [{'yearname': 2021, 'yearnum': 2021},{'yearname': 2020, 'yearnum': 2020}],
       picker: new Date().toISOString().substr(0, 10),
       items: [
@@ -169,10 +166,12 @@ export default {
   methods: {
     monthset(monthnum){
       this.monthnum = monthnum
+      this.$storage.set('calMonth', monthnum)
       console.log(this.monthnum)
     },
     yearset(yearnum){
       this.yearnum = yearnum
+      this.$storage.set('calYear', yearnum)
       console.log(this.yearnum)
     },
     pickerset(){

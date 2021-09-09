@@ -191,6 +191,7 @@ export default {
       //alert(item.fio + " " + item.birthday)
     },
     async get_ktu() {
+      console.log('get_ktu func from Main')
       this.workingUsers = await this.$api.post('getworkingusers',{"report_date" : "2021-05-01", "year": this.$storage.state.calYear, "month": this.$storage.state.calMonth})
       console.log(this.workingUsers)
     }
