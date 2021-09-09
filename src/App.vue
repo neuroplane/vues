@@ -41,11 +41,45 @@
               no-title
           ></v-date-picker>
         </v-list-item>
+        <v-list-group
+            prepend-icon="mdi-calendar"
+            >
+          <template v-slot:activator>
+            <v-list-item-title>Месяца</v-list-item-title>
+          </template>
+          <v-list-item v-for="item in months">
+            <v-list-item-content>
+              <v-list-item-title
+                @click="monthset(item.monthnum)"
+              >
+                {{item.monthname}}
+              </v-list-item-title>
+            </v-list-item-content>
+
+          </v-list-item>
+        </v-list-group>
+        <v-list-group
+            prepend-icon="mdi-calendar"
+            >
+          <template v-slot:activator>
+            <v-list-item-title>Годы</v-list-item-title>
+          </template>
+          <v-list-item v-for="year in years">
+            <v-list-item-content>
+              <v-list-item-title
+                  @click="yearset(year.yearnum)"
+              >
+                {{year.yearname}}
+              </v-list-item-title>
+            </v-list-item-content>
+
+          </v-list-item>
+        </v-list-group>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar v-if="user" dense app>
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-      <v-app-bar-title>{{ this.$storage.state.title_date }}</v-app-bar-title>
+      <v-app-bar-title>{{ this.$storage.state.calMonth }}.{{this.$storage.state.calYear}}</v-app-bar-title>
       <v-spacer></v-spacer>
       <v-btn small plain @click="doLogout">
         <v-icon>mdi-exit-to-app</v-icon>
@@ -74,8 +108,8 @@ export default {
   data() {
 
     return {
-      done: [false, false, false],
-      mouseMonth: null,
+      months: [{'monthname':'Январь', 'monthnum':1}, {'monthname':'Февраль','monthnum':2}],
+      years: [{'yearname': 2021, 'yearnum': 2021},{'yearname': 2020, 'yearnum': 2020}],
       picker: new Date().toISOString().substr(0, 10),
       items: [
         //{ title: 'Home', icon: 'mdi-home', url: 'home' },
@@ -104,7 +138,10 @@ export default {
       picker_range: [],
       month_now: null,
       year_now: null,
-      date_now: null
+      date_now: null,
+      cal_obj: {},
+      cal_year: null,
+      cal_month: null
     }
   },
 /////////////////
@@ -112,8 +149,8 @@ export default {
     this.pickerset()
   },
   mounted() {
-    this.get_picker_range()
     this.alertdate()
+    this.getClosestDate()
   },
   beforeMount() {
     this.token = this.$cookie.get('token')
@@ -130,6 +167,14 @@ export default {
   },
 ////////////////////// Доделать сраную дату в пикере!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   methods: {
+    monthset(monthnum){
+      this.monthnum = monthnum
+      console.log(this.monthnum)
+    },
+    yearset(yearnum){
+      this.yearnum = yearnum
+      console.log(this.yearnum)
+    },
     pickerset(){
       var datenow = new Date()
       var month_now = datenow.getMonth()
@@ -152,6 +197,13 @@ export default {
     async get_picker_range(){
       this.picker_range = await this.$api.post('getpickerrange',{})
       console.log(this.picker_range)
+    },
+    async getClosestDate(){
+      this.cal_obj = await this.$api.post('getclosestmonth',{})
+      this.$storage.set('calYear', this.cal_obj.closest_year)
+      this.$storage.set('calMonth', this.cal_obj.closest_month)
+      this.cal_year = this.cal_obj.closest_year
+      console.log(this.cal_year)
     },
     alertdate(){
       this.month_date = this.picker.split('-')[1]

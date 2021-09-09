@@ -254,9 +254,8 @@ export default {
   methods: {
     async get_individual_data(selected_user){
       this.user_data = await this.$api.post('individualzp',{
-        "report_date" : this.$storage.state.report_date,
-        "month": this.$storage.state.month_date,
-        "year" : this.$storage.state.year_date,
+        "month": this.$storage.state.calMonth,
+        "year" : this.$storage.state.calYear,
         "selected_user" : selected_user
       })
       console.log(this.user_data)
@@ -267,7 +266,7 @@ export default {
       //alert(item.fio + " " + item.birthday)
     },
     async get_ktu() {
-      this.workingUsers = await this.$api.post('getworkingusers',{"report_date" : this.$storage.state.report_date})
+      this.workingUsers = await this.$api.post('getworkingusers',{"report_date" : "2021-05-01", "year": this.$storage.state.calYear, "month": this.$storage.state.calMonth})
       console.log(this.workingUsers)
     }
   },

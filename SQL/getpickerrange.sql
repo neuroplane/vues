@@ -19,4 +19,4 @@ $$;
 
 alter function getpickerrange(json, uuid) owner to neuroplane;
 
-select public.getpickerrange('{}'::json, '31c24c7b-2927-4fcb-b008-bf418fde7d3a'::uuid);
+select public.getpickerrange('{}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
