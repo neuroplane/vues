@@ -29,18 +29,16 @@
         </v-list-item>
         </v-list-group>
         <v-list-item>
-          <v-date-picker
-              picker-date="2021-5"
-              class="mt-5"
+          <v-date-picker class="mt-5"
               v-model="picker"
               type="month"
               full-width
               locale="ru"
+              @change="alertdate"
               color="blue"
               min="2021-4"
               max="2021-6"
               no-title
-              show-current="2021-05"
           ></v-date-picker>
         </v-list-item>
       </v-list>
@@ -78,7 +76,7 @@ export default {
     return {
       done: [false, false, false],
       mouseMonth: null,
-      picker: "2021-05",
+      picker: new Date().toISOString().substr(0, 10),
       items: [
         //{ title: 'Home', icon: 'mdi-home', url: 'home' },
         { title: 'Основная', icon: 'mdi-credit-card-outline', url: 'main' },
@@ -111,11 +109,11 @@ export default {
   },
 /////////////////
   created() {
-
+    this.pickerset()
   },
   mounted() {
-
-
+    this.get_picker_range()
+    this.alertdate()
   },
   beforeMount() {
     this.token = this.$cookie.get('token')
@@ -123,7 +121,7 @@ export default {
       this.token = null
     }
 
-    //this.alertdate()
+    this.alertdate()
 
     console.log('token', this.token)
     if (this.token) {
@@ -132,7 +130,14 @@ export default {
   },
 ////////////////////// Доделать сраную дату в пикере!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   methods: {
-
+    pickerset(){
+      var datenow = new Date()
+      var month_now = datenow.getMonth()
+      var year_now = datenow.getFullYear()
+      this.month_now = month_now
+      this.year_now = year_now
+      this.date_now = datenow
+    },
     tsvJSON(tsv) {
       const lines = tsv.split('\n');
       const headers = lines.slice(0, 1)[0].split('\t');
@@ -148,7 +153,7 @@ export default {
       this.picker_range = await this.$api.post('getpickerrange',{})
       console.log(this.picker_range)
     },
-    alfertdate(){
+    alertdate(){
       this.month_date = this.picker.split('-')[1]
       this.year_date = this.picker.split('-')[0]
       this.actualdate = new Date(this.picker.split('-')[0], this.picker.split('-')[1],1);

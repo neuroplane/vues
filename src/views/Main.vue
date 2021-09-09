@@ -1,20 +1,19 @@
 <template>
   <v-container class="col-xl-8 offset-xl-2">
-    <v-text-field v-if="this.workingUsers.length"
-                  class="mb-5"
+    <v-text-field class="mb-5"
         v-model="search"
         append-icon="mdi-magnify"
         label="Поиск"
         single-line
         hide-details
-        dense
-        clearable
+                  dense
+                  clearable
 
     ></v-text-field>
     <v-data-table
         :headers="headers"
         :items="workingUsers"
-        :items-per-page="17"
+        :items-per-page="10"
         :search="search"
 
         hide-default-header
@@ -24,11 +23,8 @@
         v-if="this.workingUsers.length"
         @click:row="row_click"
         :footer-props="{
-          itemsPerPageAllText: '',
-          itemsPerPageText: '',
-          itemsPerPageOptions: [17],
-          showCurrentPage: true
-        }"
+          disableItemsPerPage: true,
+          itemsPerPageAllText: ''}"
     >
 
     </v-data-table>
@@ -96,11 +92,9 @@
                 <td>Коррекция</td>
                 <td style="text-align: right">{{ user_data.correction }}</td>
               </tr>
-              <tr >
+              <tr v-if="user_data.dop">
                 <td>Доп</td>
-                <td style="text-align: right">
-                  <v-text-field dense outlined>{{ user_data.dop }}</v-text-field>
-                  </td>
+                <td style="text-align: right">{{ user_data.dop }}</td>
               </tr>
               <tr>
                 <td style="width: 60%">ИТОГО</td>
@@ -136,10 +130,6 @@
               <tr v-if="user_data.credit">
                 <td>Авансы</td>
                 <td style="text-align: right">{{ user_data.credit}}</td>
-              </tr>
-              <tr>
-                <td>ИТОГО</td>
-                <td style="text-align: right">{{user_data.fine + user_data.credit + user_data.aliments + user_data.ndfl + user_data.bank}}</td>
               </tr>
 
               </tbody>
@@ -201,7 +191,7 @@ export default {
       //alert(item.fio + " " + item.birthday)
     },
     async get_ktu() {
-      this.workingUsers = await this.$api.post('getworkingusers',{"report_date" : this.$storage.state.report_date, "year": this.$storage.state.year_date, "month": this.$storage.state.month_date})
+      this.workingUsers = await this.$api.post('getworkingusers',{"report_date" : this.$storage.state.report_date})
       console.log(this.workingUsers)
     }
   },
