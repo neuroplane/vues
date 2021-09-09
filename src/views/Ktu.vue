@@ -1,7 +1,9 @@
 <template>
   <v-container class="col-xl-8 offset-xl-2">
     <h6>TEST DATA TABLE</h6>
-    <v-btn v-if="!this.workingUsers.length">RELOAD</v-btn>
+    <v-btn v-if="!this.workingUsers.length"
+      @click="workingUsers()"
+    >RELOAD</v-btn>
     <v-text-field v-if="this.workingUsers.length"
                   class="mb-5"
                   v-model="search"
