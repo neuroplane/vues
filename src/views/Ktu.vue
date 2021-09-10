@@ -18,7 +18,7 @@
     <v-data-table
         :headers="headers"
         :items="workingUsers"
-        :items-per-page="17"
+        :items-per-page="15"
         :search="search"
 
         hide-default-header
@@ -30,7 +30,7 @@
         :footer-props="{
           itemsPerPageAllText: '',
           itemsPerPageText: '',
-          itemsPerPageOptions: [17],
+          itemsPerPageOptions: [15],
           showCurrentPage: true
         }"
     >
@@ -39,13 +39,13 @@
     <div class="text-center">
       <v-dialog
         v-model="editZpDialog"
-        width="90%"
+        width="400"
         overlay-opacity="0.95"
         overlay-color="#111111"
       >
         <v-card>
           <v-card-title>
-            Редактирования
+            Надбавки
           </v-card-title>
           <v-form>
             <v-container>

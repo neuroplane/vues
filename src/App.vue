@@ -157,7 +157,7 @@ export default {
       this.token = null
     }
 
-    this.alertdate()
+    //this.alertdate()
 
     console.log('token', this.token)
     if (this.token) {
@@ -229,6 +229,10 @@ export default {
     doLogout() {
       this.$cookie.delete('token')
       this.$storage.set('logged_in', false)
+      this.$storage.set('calYear', null)
+      this.$storage.set('calMonth', null)
+      this.cal_year = null
+      this.cal_month = null
       this.user = null
       this.token = null
       //this.$router.push({ name: 'Main' })
