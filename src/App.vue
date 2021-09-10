@@ -2,13 +2,7 @@
   <v-app>
     <v-navigation-drawer v-if="user" v-model="drawer" absolute temporary app >
       <v-list dense nav>
-        <v-list-group
-            prepend-icon="mdi-menu"
-            sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-title>Меню</v-list-item-title>
-          </template>
+
         <v-list-item
             v-for="item in items"
             :key="item.title"
@@ -27,7 +21,7 @@
 
           </v-list-item-content>
         </v-list-item>
-        </v-list-group>
+
 
         <v-list-item class="mt-3">
           <v-col
@@ -64,7 +58,7 @@
     </v-navigation-drawer>
     <v-app-bar v-if="user" dense app>
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-      <v-app-bar-title>{{ this.cal_month }}.{{this.cal_year}}</v-app-bar-title>
+      <v-app-bar-title>{{ this.$storage.state.calMonth }}.{{ this.$storage.state.calYear }}</v-app-bar-title>
       <v-spacer></v-spacer>
       <v-btn small plain @click="doLogout">
         <v-icon>mdi-exit-to-app</v-icon>
@@ -127,12 +121,6 @@ export default {
       role_child: null,
       drawer: false,
       group: null,
-      actualdate: null,
-      report_date: null,
-      month_date: null,
-      year_date: null,
-      day_date: 1,
-      date_to_convert: null,
       picker_range: [],
       month_now: null,
       year_now: null,
@@ -144,11 +132,10 @@ export default {
   },
 /////////////////
   created() {
-    this.pickerset()
+
   },
   mounted() {
-    this.getClosestDate()
-    //this.alertdate()
+
 
   },
   beforeMount() {
@@ -157,35 +144,22 @@ export default {
       this.token = null
     }
 
-    //this.alertdate()
-
     console.log('token', this.token)
     if (this.token) {
       this.getUser()
     }
 
   },
-////////////////////// Доделать сраную дату в пикере!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   methods: {
     monthset(monthnum){
       this.monthnum = monthnum
       this.$storage.set('calMonth', monthnum)
       this.cal_month = this.$storage.state.calMonth
-      console.log(this.monthnum)
     },
     yearset(yearnum){
       this.yearnum = yearnum
       this.$storage.set('calYear', yearnum)
       this.cal_year = this.$storage.state.calYear
-      console.log(this.yearnum)
-    },
-    pickerset(){
-      var datenow = new Date()
-      var month_now = datenow.getMonth()
-      var year_now = datenow.getFullYear()
-      this.month_now = month_now
-      this.year_now = year_now
-      this.date_now = datenow
     },
     tsvJSON(tsv) {
       const lines = tsv.split('\n');
@@ -198,33 +172,10 @@ export default {
         }, {});
       });
     },
-    async get_picker_range(){
-      this.picker_range = await this.$api.post('getpickerrange',{})
-      console.log(this.picker_range)
-    },
     async getClosestDate(){
-      this.cal_obj = await this.$api.post('getclosestmonth',{})
-      this.$storage.set('calYear', this.cal_obj.closest_year)
-      this.$storage.set('calMonth', this.cal_obj.closest_month)
       this.cal_year = this.cal_obj.closest_year
       this.cal_month = this.cal_obj.closest_month
       console.log(this.cal_year)
-    },
-    alertdate(){
-      this.month_date = this.picker.split('-')[1]
-      this.year_date = this.picker.split('-')[0]
-      this.actualdate = new Date(this.picker.split('-')[0], this.picker.split('-')[1],1);
-      //alert(this.actualdate.getFullYear() + "-" + this.actualdate.getMonth() + "-" + this.actualdate.getDate())
-      this.report_date = this.actualdate.getFullYear() + "-" + this.actualdate.getMonth() + "-" + this.actualdate.getDate()
-      this.$storage.set('report_date', this.report_date)
-      this.$storage.set('month_date', this.month_date)
-      this.$storage.set('year_date', this.year_date)
-      this.$storage.set('day_date', this.day_date)
-      const options = { month: 'long', year:'2-digit'};
-      const newreportdate = new Date(Date.UTC(this.year_date, this.month_date-1, this.day_date))
-      this.$storage.set('title_date', newreportdate.toLocaleDateString('ru-RU', options))
-      this.drawer = false
-      console.log(this.$storage.state.title_date)
     },
     doLogout() {
       this.$cookie.delete('token')

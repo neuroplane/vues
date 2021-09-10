@@ -13,14 +13,12 @@
                   hide-details
                   dense
                   clearable
-
     ></v-text-field>
     <v-data-table
         :headers="headers"
         :items="workingUsers"
         :items-per-page="15"
         :search="search"
-
         hide-default-header
         class="elevation-1"
         dense
@@ -34,7 +32,6 @@
           showCurrentPage: true
         }"
     >
-
     </v-data-table>
     <div class="text-center">
       <v-dialog

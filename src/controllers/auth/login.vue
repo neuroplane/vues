@@ -37,6 +37,8 @@
     //this.getstats()
   },
   methods: {
+    async getClosestDate(){
+      },
     async doLogin() {
       try {
         const res = await this.$api.post('login', {
@@ -45,10 +47,14 @@
         }, { skipTokenCheck: true })
         this.$cookie.set('token', res.token)
         this.$emit('done')
+        this.cal_obj = await this.$api.post('getclosestmonth',{})
+        this.$storage.set('calYear', this.cal_obj.closest_year)
+        this.$storage.set('calMonth', this.cal_obj.closest_month)
         this.$router.push('/About')
       } catch (e) {
         this.alertmessage = e.message
         this.alert = true
+
         console.log(e.message)
       }
     }

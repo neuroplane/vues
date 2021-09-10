@@ -8,10 +8,8 @@ DECLARE
     _user_id int;
 BEGIN
     _user_id = get_user(_token);
-    SELECT to_json(a) INTO _response FROM (
-        select
-            (select c.period_year || '-' || c.period_month || '-1' from constants c order by c.period_year, c.period_month ASC LIMIT 1) as first_month,
-            (select c.period_year || '-' || c.period_month || '-1' from constants c order by c.period_year, c.period_month DESC LIMIT 1) as last_month
+    SELECT json_agg(a) INTO _response FROM (
+        select distinct c.period_year, c.period_month from constants c order by c.period_year, c.period_month
     ) AS  a;
     RETURN coalesce(_response,'{}');
 END
