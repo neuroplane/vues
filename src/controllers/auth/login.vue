@@ -1,5 +1,5 @@
 <template>
-    <v-container class="col-sm-4 offset-sm-4 col-md-2 offset-md-5 col-lg-2 offset-lg-5">
+    <v-container class="col-sm-4 offset-sm-4 col-md-4 offset-md-4 col-lg-4 offset-lg-4">
       <v-form>
         <v-text-field dark dense prepend-inner-icon="mdi-account" outlined type="text" placeholder="логин" v-model="login"></v-text-field>
         <v-text-field dark dense prepend-inner-icon="mdi-lock" outlined @keyup.enter="doLogin()" type="password" placeholder="пароль" v-model="password"></v-text-field>
@@ -50,7 +50,7 @@
         this.cal_obj = await this.$api.post('getclosestmonth',{})
         this.$storage.set('calYear', this.cal_obj.closest_year)
         this.$storage.set('calMonth', this.cal_obj.closest_month)
-        this.$router.push('/About')
+        this.$router.push('/Ktu')
       } catch (e) {
         this.alertmessage = e.message
         this.alert = true

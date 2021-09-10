@@ -1,13 +1,10 @@
 <template>
-  <v-container class="col-xl-8 offset-xl-2">
-    <h6>TEST DATA TABLE</h6>
-    <v-btn v-if="!this.workingUsers.length"
-      @click="workingUsers()"
-    >RELOAD</v-btn>
-    <v-text-field v-if="this.workingUsers.length"
+  <v-container class="col-xl-4 offset-xl-4">
+    <v-text-field
+        v-if="this.workingUsers.length"
                   class="mb-5"
                   v-model="search"
-                  append-icon="mdi-magnify"
+
                   label="Поиск"
                   single-line
                   hide-details
@@ -244,7 +241,7 @@ export default {
       search: '',
       headers: [
         { text: 'Сотрудник', value: 'fio' },
-        //{ text: 'С', value: 'ktu_sum' },
+        { text: 'С', value: 'ktu_sum' },
         //{ text: 'Ш', value: 'ktu_amount' },
         //{ text: 'Стр', value: 'ktu_lines' },
         //{ text: 'Ч', value: 'ktu_documents' }

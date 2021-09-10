@@ -24,9 +24,7 @@
 
 
         <v-list-item class="mt-3">
-          <v-col
-
-          >
+          <v-col>
             <v-btn
                 tile
                 min-width="33%"
@@ -58,7 +56,8 @@
     </v-navigation-drawer>
     <v-app-bar v-if="user" dense app>
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-      <v-app-bar-title>{{ this.$storage.state.calMonth }}.{{ this.$storage.state.calYear }}</v-app-bar-title>
+      <v-spacer></v-spacer>
+      <v-app-bar-title class="font-weight-light">{{ this.$storage.state.calMonth }}.{{ this.$storage.state.calYear }}</v-app-bar-title>
       <v-spacer></v-spacer>
       <v-btn small plain @click="doLogout">
         <v-icon>mdi-exit-to-app</v-icon>
