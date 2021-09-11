@@ -111,9 +111,17 @@
               v-if="this.user_data">
             <v-simple-table style="font-family: monospace; font-size: 10px" class="mb-5"  dense>
               <tbody>
-              <tr v-if="user_data.month_standard">
+              <tr v-if="user_data.hours">
                 <td style="width: 60%">Норма часов</td>
                 <td style="text-align: right">{{ user_data.hours}} / {{ user_data.month_standard}}</td>
+              </tr>
+              <tr v-if="user_data.change">
+                <td style="width: 60%">Замещения</td>
+                <td style="text-align: right">{{ user_data.change}}</td>
+              </tr>
+              <tr v-if="user_data.shifts">
+                <td style="width: 60%">Смены</td>
+                <td style="text-align: right">{{ user_data.shifts}}</td>
               </tr>
               <tr v-if="user_data.salary">
                 <td>Оклад</td>
