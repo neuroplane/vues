@@ -154,6 +154,7 @@ export default {
       this.monthnum = monthnum
       this.$storage.set('calMonth', monthnum)
       this.cal_month = this.$storage.state.calMonth
+      this.drawer= false
     },
     yearset(yearnum){
       this.yearnum = yearnum
