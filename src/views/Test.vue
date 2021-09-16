@@ -1,6 +1,29 @@
 <template>
   <v-container class="col-xl-4 offset-xl-4">
-    <p>TEST</p>
+    <v-dialog
+        v-model="testDialog"
+        width="400"
+        overlay-opacity="0.95"
+        overlay-color="#111111"
+    >
+      <v-card>
+        <v-card-title>
+          Card title
+        </v-card-title>
+        <v-form>
+          <v-container>
+          <v-row>
+            <v-col cols="6" xs="6" sm="6" md="6">
+              <v-text-field clearable label="Дополнительно"></v-text-field>
+            </v-col>
+            <v-col cols="6" xs="6" sm="6" md="6">
+              <v-text-field clearable label="Дополнительно"></v-text-field>
+            </v-col>
+          </v-row>
+          </v-container>
+        </v-form>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -10,7 +33,7 @@ export default {
   data() {
     return {
       foo: false,
-      editZpDialog: false,
+      testDialog: true,
       bar: []
     }
   },
