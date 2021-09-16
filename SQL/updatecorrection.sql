@@ -23,7 +23,7 @@ BEGIN
     INSERT INTO public.extra (id, user_id, amount, dop_amount, period_month, period_year) VALUES (DEFAULT, _selected_user, _dop, _correction, _month, _year)
     ON CONFLICT ON CONSTRAINT unique_userid_month_year DO
         UPDATE SET dop_amount=_dop, amount = _correction WHERE extra.user_id = _selected_user;
-    SELECT json_agg(a) INTO _response FROM (
+    SELECT to_json(a) INTO _response FROM (
                                                SELECT 'ВСЁ ЗАЕБЦА, ВСТАВИЛ ТЕБЕ ДОПЫ И КОРРЕКЦИЮ, НЕ ССЫ' as callback
                                            ) AS a;
 

@@ -46,7 +46,8 @@ export default {
     async updateExtra(userid, dop, correction, month, year){
       //user_data.id, user_data.dop, user_data.period_month, user_data.period_year
       console.log("UPDATING ITEMS: USER ID:" + userid + ", DOP: " + dop + ", CORRECTION: " + correction)
-      await this.$api.post('updatecorrection', {'selected_user': userid, 'dop': dop, 'correction': correction, 'month': month, 'year': year})
+      let response = await this.$api.post('updatecorrection', {'selected_user': userid, 'dop': dop, 'correction': correction, 'month': month, 'year': year})
+      console.log(response)
       this.editZpDialog = false
     }
     ,
