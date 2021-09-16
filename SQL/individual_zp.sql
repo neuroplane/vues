@@ -47,7 +47,7 @@ BEGIN
     FROM (
              select
             -- НАЧИСЛЕНИЯ
-                    m.month_ru_small,
+                    m.month_ru_small, m.month_id as period_month,
                     coalesce(ex.dop_amount,0) as dop, --ДОП
                     coalesce(ex.amount,0) as correction, -- КОРРЕКЦИЯ
                     compute_bonus(_selected_user, _month, _year) as accrualbonus, --БОНУС

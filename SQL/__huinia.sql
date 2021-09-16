@@ -76,3 +76,6 @@ SELECT round((
                             and s.period_year = 2021
                             and s.role = 'warehouse'
                             and u.id = 12))::numeric,0);
+
+ALTER TABLE TABLE_NAME
+    ADD CONSTRAINT constraint_name UNIQUE (column1, column2, ... column_n);

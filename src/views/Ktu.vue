@@ -76,7 +76,7 @@
           </v-form>
           <v-divider></v-divider>
           <v-card-actions>
-            <v-btn color="success" text @click="editZpDialog = false">
+            <v-btn color="success" text @click="updateExtra(user_data.id, user_data.dop, user_data.correction, user_data.period_month, user_data.period_year)">
               Записать
             </v-btn>
             <v-spacer></v-spacer>
@@ -257,6 +257,13 @@ export default {
     }
   },
   methods: {
+    async updateExtra(userid, dop, correction, month, year){
+      //user_data.id, user_data.dop, user_data.period_month, user_data.period_year
+      console.log("UPDATING ITEMS: USER ID:" + userid + ", DOP: " + dop + ", CORRECTION: " + correction)
+      await this.$api.post('updatecorrection', {'selected_user': userid, 'dop': dop, 'correction': correction, 'month': month, 'year': year})
+      this.editZpDialog = false
+    }
+    ,
     async get_individual_data(selected_user){
       this.user_data = await this.$api.post('individualzp',{
         "month": this.$storage.state.calMonth,
