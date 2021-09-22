@@ -21,8 +21,9 @@ BEGIN
     IF _user_id IS NULL THEN RAISE EXCEPTION 'Wrong username and/or password' USING ERRCODE='ER403'; END IF;
     SELECT json_agg(a) INTO _response FROM (
         SELECT s.time_hours, s.time_minutes,
-               (select ROUND((EXTRACT(EPOCH FROM current_timestamp AT TIME ZONE 'Europe/Moscow'-
-                (select make_timestamp(_nextday_year, _nextday_month, _nextday_day, s.time_hours, s.time_minutes, 00)))/3600*60)::float4) * interval '1 minute'  ) as time_to,
+               (select (EXTRACT(EPOCH FROM current_timestamp AT TIME ZONE 'Europe/Moscow'-
+                (select make_timestamp(_nextday_year, _nextday_month, _nextday_day, s.time_hours, s.time_minutes, 00))
+                   )))::int as time_to,
                LEFT(make_time(s.time_hours, s.time_minutes, 0)::text, 5) as time, s.lesson_name
         FROM school.schedule_eugene s
         WHERE s.day_of_week = _nextday_dow
