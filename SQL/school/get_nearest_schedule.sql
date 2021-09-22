@@ -6,7 +6,6 @@ $$
 DECLARE
     _response JSON;
     _user_id bigint;
-    _dow int;
     _current_time time;
     _nextday_year int;
     _nextday_month int;
@@ -14,7 +13,6 @@ DECLARE
     _nextday_dow int;
 BEGIN
     _user_id = get_user(_token);
-    _dow = requireint(params, 'dow');
     select current_time into _current_time;
     select extract(DAY FROM date(current_timestamp + interval '11 hours') AT TIME ZONE 'Europe/Moscow') into _nextday_day;
     select extract(MONTH FROM date(current_timestamp + interval '11 hours') AT TIME ZONE 'Europe/Moscow') into _nextday_month;
@@ -25,7 +23,7 @@ BEGIN
         SELECT
                (select ROUND((EXTRACT(EPOCH FROM current_timestamp AT TIME ZONE 'Europe/Moscow'-
                 (select make_timestamp(_nextday_year, _nextday_month, _nextday_day, s.time_hours, s.time_minutes, 00)))/3600*60)::float4) * interval '1 minute'  ) as time_to,
-               make_time(s.time_hours, s.time_minutes, 0) as time, s.lesson_name
+               LEFT(make_time(s.time_hours, s.time_minutes, 0)::text, 5) as time, s.lesson_name
         FROM school.schedule_eugene s
         WHERE s.day_of_week = _nextday_dow
         ORDER BY s.id
@@ -37,4 +35,4 @@ $$;
 
 alter function getdayschedule(json, uuid) owner to neuroplane;
 
-select public.getdayschedule('{"dow":2}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
+select public.getdayschedule('{}'::json, '11609376-ff57-401e-88a4-53f4c0904fdb'::uuid);
