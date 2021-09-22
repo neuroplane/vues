@@ -1,5 +1,6 @@
 <template>
   <v-container class="col-xl-4 offset-xl-4">
+    <v-btn block small @click="testDialog = !testDialog">test</v-btn>
     <v-dialog
         v-model="testDialog"
         width="400"
@@ -22,7 +23,7 @@
             </v-col>
             <v-col cols="6" xs="6" sm="6" md="6">
               <v-text-field clearable label="Дополнительно"></v-text-field>
-              <v-select></v-select>
+              <v-overflow-btn ></v-overflow-btn>
             </v-col>
           </v-row>
           </v-container>
