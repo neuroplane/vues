@@ -79,3 +79,16 @@ SELECT round((
 
 ALTER TABLE TABLE_NAME
     ADD CONSTRAINT constraint_name UNIQUE (column1, column2, ... column_n);
+
+
+/*
+ * $ pg_dump --host=localhost --username=xyz db > db-2015-12-01.backup
+ * $ psql --host=localhost --username=xyz db
+ *
+ * http://www.postgresql.org/docs/8.3/static/functions-matching.html
+ */
+
+\dt
+select * from ci_parameters where ci_parameters.key='tag' and ci_parameters.value ~ 'signed-';;
+update ci_parameters set value = regexp_replace(value, 'signed-', 'signed_') where value ~ 'signed-';;
+\q
